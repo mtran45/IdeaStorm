@@ -118,7 +118,7 @@
       <Name>IdeaStorm.Domain</Name>
     </ProjectReference>
     <ProjectReference Include="..\IdeaStorm.WebUI\IdeaStorm.WebUI.csproj">
-      <Project>{da26fca5-c671-4f40-81fc-4a43d5c0deb4}</Project>
+      <Project>{eb21027f-c8c0-4874-9ab4-70886cc8c460}</Project>
       <Name>IdeaStorm.WebUI</Name>
     </ProjectReference>
   </ItemGroup>
