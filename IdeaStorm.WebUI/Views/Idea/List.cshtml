@@ -1,0 +1,18 @@
+﻿@using IdeaStorm.Domain.Entities
+@model IEnumerable<Idea>
+
+@{
+    ViewBag.Title = "Ideas";
+}
+
+<h2>Ideas</h2>
+
+@foreach (var i in Model)
+{
+    <div>
+        <h3>@i.Name</h3>
+        @i.Description
+        <h4>@i.Category</h4>
+    </div>
+}
+
