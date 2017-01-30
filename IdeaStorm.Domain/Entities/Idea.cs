@@ -13,5 +13,7 @@ namespace IdeaStorm.Domain.Entities
         public string Description { get; set; }
         public int AuthorID { get; set; }
         public string Category { get; set; }
+        public DateTime CreatedTime { get; set; }
+        public DateTime UpdatedTime { get; set; }
     }
 }

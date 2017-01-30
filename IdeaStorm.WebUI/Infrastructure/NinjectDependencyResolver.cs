@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using IdeaStorm.Domain.Abstract;
+using IdeaStorm.Domain.Concrete;
 using IdeaStorm.Domain.Entities;
 using Moq;
 using Ninject;
@@ -32,14 +33,7 @@ namespace IdeaStorm.WebUI.Infrastructure
 
         private void AddBindings()
         {
-            Mock<IIdeaRepository> mock = new Mock<IIdeaRepository>();
-            mock.Setup(m => m.Ideas).Returns(new List<Idea>
-            {
-                new Idea {Name = "Idea Storm", Description = "App for brainstorming ideas"},
-                new Idea {Name = "J-Reader", Description = "A ebook reader for Japanese books"}
-            });
-
-            kernel.Bind<IIdeaRepository>().ToConstant(mock.Object);
+            kernel.Bind<IIdeaRepository>().To<EFIdeaRepository>();
         }
     }
 }

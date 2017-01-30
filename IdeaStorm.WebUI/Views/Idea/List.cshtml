@@ -9,10 +9,13 @@
 
 @foreach (var i in Model)
 {
-    <div>
-        <h3>@i.Name</h3>
-        @i.Description
-        <h4>@i.Category</h4>
+    <div class="well">
+        <h3>
+            <strong>@i.Name</strong>
+            <span class="pull-right label label-primary">@i.Category</span>
+        </h3>
+        <span class="lead">@i.Description</span>
+        
     </div>
 }
 
