@@ -10,5 +10,7 @@ namespace IdeaStorm.Domain.Abstract
     public interface IIdeaRepository
     {
         IEnumerable<Idea> Ideas { get; }
+
+        void SaveIdea(Idea idea);
     }
 }

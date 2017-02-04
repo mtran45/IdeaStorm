@@ -16,5 +16,24 @@ namespace IdeaStorm.Domain.Concrete
         {
             get { return context.Ideas; }
         }
+
+        public void SaveIdea(Idea idea)
+        {
+            if (idea.IdeaID == 0)
+            {
+                context.Ideas.Add(idea);
+            }
+            else
+            {
+                Idea dbEntry = context.Ideas.Find(idea.IdeaID);
+                if (dbEntry != null)
+                {
+                    dbEntry.Name = idea.Name;
+                    dbEntry.Description = idea.Description;
+                    dbEntry.Category = idea.Category;
+                }
+                context.SaveChanges();
+            }
+        }
     }
 }
