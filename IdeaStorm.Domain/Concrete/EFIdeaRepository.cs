@@ -19,6 +19,7 @@ namespace IdeaStorm.Domain.Concrete
 
         public void SaveIdea(Idea idea)
         {
+            idea.UpdatedTime = DateTime.Now;
             if (idea.IdeaID == 0)
             {
                 context.Ideas.Add(idea);
@@ -31,9 +32,10 @@ namespace IdeaStorm.Domain.Concrete
                     dbEntry.Name = idea.Name;
                     dbEntry.Description = idea.Description;
                     dbEntry.Category = idea.Category;
+                    dbEntry.UpdatedTime = idea.UpdatedTime;
                 }
-                context.SaveChanges();
             }
+            context.SaveChanges();
         }
     }
 }

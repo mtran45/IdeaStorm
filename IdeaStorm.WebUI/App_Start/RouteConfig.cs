@@ -15,8 +15,8 @@ namespace IdeaStorm.WebUI
 
             routes.MapRoute(
                 name: "Default",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Idea", action = "List", id = UrlParameter.Optional }
+                url: "{controller}/{action}/{ideaId}",
+                defaults: new { controller = "Idea", action = "List", ideaId = UrlParameter.Optional }
             );
         }
     }

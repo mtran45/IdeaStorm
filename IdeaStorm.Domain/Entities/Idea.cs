@@ -10,14 +10,15 @@ namespace IdeaStorm.Domain.Entities
         public int IdeaID { get; set; }
 
         [HiddenInput(DisplayValue = false)]
-        public DateTime CreatedTime { get; set; }
+        public DateTime CreatedTime { get; set; } = DateTime.Now;
 
         [HiddenInput(DisplayValue = false)]
-        public DateTime UpdatedTime { get; set; }
+        public DateTime UpdatedTime { get; set; } = DateTime.Now;
 
         [HiddenInput(DisplayValue = false)]
-        public int AuthorID { get; set; }
+        public int AuthorID { get; set; } = 0;
 
+        [Required(ErrorMessage = "Please enter an idea name")]
         public string Name { get; set; }
 
         [DataType(DataType.MultilineText)]

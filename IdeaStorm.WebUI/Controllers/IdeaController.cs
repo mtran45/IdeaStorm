@@ -43,5 +43,11 @@ namespace IdeaStorm.WebUI.Controllers
                 return View(idea);
             }
         }
+
+        public ViewResult Create()
+        {
+            return View("Edit", new Idea());
+        }
+
     }
 }

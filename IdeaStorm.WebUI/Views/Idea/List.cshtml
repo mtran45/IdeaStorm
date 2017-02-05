@@ -14,6 +14,9 @@
             <strong>@i.Name</strong>
             <span class="pull-right label label-primary">@i.Category</span>
         </h3>
+        
+        @Html.ActionLink("Edit", "Edit", new { ideaId=i.IdeaID }, new { @class = "btn btn-success pull-right" })
+
         <span class="lead">@i.Description</span>
         
     </div>
