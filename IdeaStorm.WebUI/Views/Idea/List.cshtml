@@ -7,18 +7,20 @@
 
 <h2>Ideas</h2>
 
-@foreach (var i in Model)
-{
-    <div class="well">
-        <h3>
-            <strong>@i.Name</strong>
-            <span class="pull-right label label-primary">@i.Category</span>
-        </h3>
-        
-        @Html.ActionLink("Edit", "Edit", new { ideaId=i.IdeaID }, new { @class = "btn btn-success pull-right" })
+<ul class="list-group">
+    @foreach (var i in Model)
+    {
+        <a href="@Url.Action("Edit", "Idea", new { ideaId = i.IdeaID })" class="list-group-item">
+            <h4 class="list-group-item-heading">
+                <strong>@i.Name</strong>
+                
+                <span class="pull-right label label-primary">@i.Category</span>
+            </h4>
 
-        <span class="lead">@i.Description</span>
-        
-    </div>
-}
+            <p class="list-group-item-text">@i.Description</p>
+        </a>
+    }
+</ul>
+
+
 
