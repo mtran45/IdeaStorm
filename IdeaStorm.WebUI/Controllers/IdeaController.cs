@@ -49,5 +49,9 @@ namespace IdeaStorm.WebUI.Controllers
             return View("Edit", new Idea());
         }
 
+        public ViewResult Brainstorm()
+        {
+            return View(new List<Idea>(new Idea[10]));
+        }
     }
 }

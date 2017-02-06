@@ -1,0 +1,33 @@
+﻿@using IdeaStorm.Domain.Entities
+@model IEnumerable<Idea>
+
+@{
+    ViewBag.Title = "Brainstorm";
+}
+
+<h2>Brainstorm</h2>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        Enter 10 ideas
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        <div class="panel-body">
+            @foreach (var i in Model)
+            {
+            @*            @Html.HiddenFor(m => m.IdeaID)*@
+            @*            <label>Idea @</label>*@
+                @Html.TextBox("Name", null, new {@class = "form-control"})
+                @Html.ValidationMessage("Name")
+            }
+        </div>
+
+        <div class="panel-footer">
+            <input type="submit" value="Save" class="btn btn-primary" />
+            @Html.ActionLink("Cancel and return to List", "List", null,
+                                new { @class = "btn btn-default" })
+        </div>
+    }
+</div>
