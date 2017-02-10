@@ -1,7 +1,4 @@
-﻿@using IdeaStorm.Domain.Entities
-@model IEnumerable<Idea>
-
-@{
+﻿@{
     ViewBag.Title = "Brainstorm";
 }
 
@@ -9,18 +6,16 @@
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        Enter 10 ideas
+        Enter <span id="brainstorm-remaining">10</span> more idea(s)
     </div>
 
     @using (Html.BeginForm())
     {
         <div class="panel-body">
-            @foreach (var i in Model)
+            @for (var i = 0; i < 10; i++)
             {
-            @*            @Html.HiddenFor(m => m.IdeaID)*@
-            @*            <label>Idea @</label>*@
-                @Html.TextBox("Name", null, new {@class = "form-control"})
-                @Html.ValidationMessage("Name")
+                @Html.TextBox("ideas", null, 
+               new { @class = "form-control", placeholder = "Idea " + (i+1)  })
             }
         </div>
 
@@ -31,3 +26,25 @@
         </div>
     }
 </div>
+
+@section Scripts
+{
+    <script>
+        function update_remaining() {
+            var remaining = 0;
+            $("input").each(function() {
+                if ($(this).val().trim().length === 0) {
+                    remaining++;
+                }
+            });
+            $("#brainstorm-remaining").text(remaining);
+        }
+
+        $(document).ready(function() {
+            $("input").blur(function() {
+                update_remaining();
+            });
+            update_remaining();
+        });
+    </script>
+}

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.WebPages;
+using Castle.Core.Internal;
 using IdeaStorm.Domain.Abstract;
 using IdeaStorm.Domain.Entities;
 
@@ -34,7 +36,7 @@ namespace IdeaStorm.WebUI.Controllers
             if (ModelState.IsValid)
             {
                 repository.SaveIdea(idea);
-                TempData["message"] = string.Format($"{idea.Name} has been saved");
+                TempData["message"] = string.Format($"\"{idea.Name}\" has been saved");
                 return RedirectToAction("List");
             }
             else
@@ -51,7 +53,21 @@ namespace IdeaStorm.WebUI.Controllers
 
         public ViewResult Brainstorm()
         {
-            return View(new List<Idea>(new Idea[10]));
+            return View();
         }
+
+        [HttpPost]
+        public ActionResult Brainstorm(IList<string> ideas)
+        {
+            int saved = 0;
+            foreach (var i in ideas)
+            {
+                if (i.Trim().IsEmpty()) continue;
+                repository.SaveIdea(new Idea(i));
+                saved++;
+            }
+            TempData["message"] = string.Format($"{saved} ideas added");
+            return RedirectToAction("List");
+        } 
     }
 }
