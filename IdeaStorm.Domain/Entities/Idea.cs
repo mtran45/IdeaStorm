@@ -25,5 +25,12 @@ namespace IdeaStorm.Domain.Entities
         public string Description { get; set; }
 
         public string Category { get; set; }
+
+        public Idea() {}
+
+        public Idea(string name)
+        {
+            this.Name = name;
+        }
     }
 }
