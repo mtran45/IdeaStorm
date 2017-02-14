@@ -1,0 +1,52 @@
+﻿@model IdeaStorm.Domain.Entities.Idea
+
+@{
+    ViewBag.Title = "Add Idea";
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3>Add Idea</h3>
+    </div>
+
+    @using (Html.BeginForm("Create", "Idea"))
+    {
+        <div class="panel-body">
+            @Html.HiddenFor(m => m.IdeaID)
+            @foreach (var property in ViewData.ModelMetadata.Properties)
+            {
+                <div class="form-group">
+                    @switch (property.PropertyName)
+                    {
+                        case "User":
+                        case "IdeaID":
+                        case "CreatedTime":
+                        case "UpdatedTime":
+                        case "UserID":
+                            break;
+                        default:
+                            <label>@(property.DisplayName ?? property.PropertyName)</label>
+                            if (property.PropertyName == "Description")
+                            {
+                                @Html.TextArea(property.PropertyName, null,
+                                                    new { @class = "form-control", rows = 5 })
+                            }
+                            else
+                            {
+                                @Html.TextBox(property.PropertyName, null,
+                                                    new { @class = "form-control" })
+                            }
+                            @Html.ValidationMessage(property.PropertyName)
+                            break;
+                    }
+                </div>
+            }
+        </div>
+
+        <div class="panel-footer">
+            <input type="submit" value="Save" class="btn btn-primary" />
+            @Html.ActionLink("Cancel and return to List", "List", null,
+                                new { @class = "btn btn-default" })
+        </div>
+    }
+</div>

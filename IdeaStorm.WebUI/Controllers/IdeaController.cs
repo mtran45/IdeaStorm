@@ -24,9 +24,9 @@ namespace IdeaStorm.WebUI.Controllers
             return View(repository.Ideas);
         }
 
-        public ViewResult Edit(int ideaId)
+        public ViewResult Edit(int id)
         {
-            Idea idea = repository.Ideas.FirstOrDefault(i => i.IdeaID == ideaId);
+            Idea idea = repository.Ideas.FirstOrDefault(i => i.IdeaID == id);
             return View(idea);
         }
 
@@ -48,7 +48,19 @@ namespace IdeaStorm.WebUI.Controllers
 
         public ViewResult Create()
         {
-            return View("Edit", new Idea());
+            return View(new Idea());
+        }
+
+        [HttpPost]
+        public ActionResult Create([Bind(Include = "Name,Description,Category")] Idea idea)
+        {
+            if (ModelState.IsValid)
+            {
+                repository.SaveIdea(idea);
+                TempData["message"] = string.Format($"\"{idea.Name}\" has been added");
+                return RedirectToAction("List");
+            }
+            return View(idea);
         }
 
         public ViewResult Brainstorm()
