@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using IdeaStorm.Domain.Concrete;
+using IdeaStorm.WebUI.Infrastructure;
 
 namespace IdeaStorm.WebUI
 {
@@ -15,7 +16,7 @@ namespace IdeaStorm.WebUI
         {
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
-            Database.SetInitializer<EFDbContext>(null);
+            Database.SetInitializer(new EFDbInitializer());
         }
     }
 }

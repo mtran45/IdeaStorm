@@ -23,3 +23,9 @@ textarea {
 .input-group input {
     max-width: 100%;
 }
+
+.tagline {
+    font-size: 75%;
+    margin-bottom: 5px;
+    opacity: 0.8;
+}

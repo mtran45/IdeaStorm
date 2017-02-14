@@ -9,14 +9,15 @@ namespace IdeaStorm.Domain.Entities
         [HiddenInput(DisplayValue = false)]
         public int IdeaID { get; set; }
 
+        // Foreign keys
         [HiddenInput(DisplayValue = false)]
-        public DateTime CreatedTime { get; set; } = DateTime.Now;
+        public int UserID { get; set; }
 
         [HiddenInput(DisplayValue = false)]
-        public DateTime UpdatedTime { get; set; } = DateTime.Now;
+        public DateTime CreatedTime { get; set; }
 
         [HiddenInput(DisplayValue = false)]
-        public int AuthorID { get; set; } = 0;
+        public DateTime UpdatedTime { get; set; }
 
         [Required(ErrorMessage = "Please enter an idea name")]
         public string Name { get; set; }
@@ -26,11 +27,19 @@ namespace IdeaStorm.Domain.Entities
 
         public string Category { get; set; }
 
-        public Idea() {}
+        // Navigation Properties
+        public virtual User User { get; set; }
 
-        public Idea(string name)
+        public Idea()
         {
-            this.Name = name;
+            CreatedTime = DateTime.Now;
+            UpdatedTime = DateTime.Now;
+            UserID = 1;
+        }
+
+        public Idea(string name) : this()
+        {
+            Name = name;
         }
     }
 }

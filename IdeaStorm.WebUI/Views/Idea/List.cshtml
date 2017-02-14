@@ -13,14 +13,28 @@
         <a href="@Url.Action("Edit", "Idea", new { ideaId = i.IdeaID })" class="list-group-item">
             <h4 class="list-group-item-heading">
                 <strong>@i.Name</strong>
-                
                 <span class="pull-right label label-primary">@i.Category</span>
             </h4>
+            
+            <div class="tagline">
+                <strong>@i.User.Username</strong> 
+                <time class="timeago" datetime="@i.CreatedTime.ToString("o")">@i.CreatedTime</time>
+            </div>
 
             <p class="list-group-item-text">@i.Description</p>
         </a>
     }
 </ul>
+
+@section Scripts
+{
+    <script>
+        var $j = jQuery.noConflict();
+        $j(document).ready(function() {
+             $j("time.timeago").timeago();
+        });
+    </script>
+}
 
 
 
