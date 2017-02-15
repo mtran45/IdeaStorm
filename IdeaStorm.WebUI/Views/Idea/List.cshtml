@@ -10,19 +10,20 @@
 <ul class="list-group">
     @foreach (var i in Model)
     {
-        <a href="@Url.Action("Edit", "Idea", new { id = i.IdeaID })" class="list-group-item">
+        <ul class="list-group-item">
             <h4 class="list-group-item-heading">
-                <strong>@i.Name</strong>
+                <strong>@Html.ActionLink(i.Name, "Edit", new { id=i.IdeaID })</strong>
                 <span class="pull-right label label-primary">@i.Category</span>
             </h4>
             
             <div class="tagline">
                 <strong>@i.User.Username</strong> 
                 <time class="timeago" datetime="@i.CreatedTime.ToString("o")">@i.CreatedTime</time>
+                @Html.ActionLink("Delete", "Delete", new { id=i.IdeaID })
             </div>
 
-            <p class="list-group-item-text">@i.Description</p>
-        </a>
+            <p id="idea-desc" class="list-group-item-text">@i.Description</p>
+        </ul>
     }
 </ul>
 

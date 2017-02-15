@@ -26,6 +26,9 @@ textarea {
 
 .tagline {
     font-size: 75%;
-    margin-bottom: 5px;
-    opacity: 0.8;
+    opacity: .8;
+}
+
+#idea-desc {
+    margin-top: 5px;
 }

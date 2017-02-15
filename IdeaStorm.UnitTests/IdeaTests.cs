@@ -27,9 +27,9 @@ namespace IdeaStorm.UnitTests
             IdeaController target = new IdeaController(mock.Object);
 
             // Act
-            Idea i1 = target.Edit(1).ViewData.Model as Idea;
-            Idea i2 = target.Edit(2).ViewData.Model as Idea;
-            Idea i3 = target.Edit(3).ViewData.Model as Idea;
+            Idea i1 = ((ViewResult)target.Edit(1)).ViewData.Model as Idea;
+            Idea i2 = ((ViewResult)target.Edit(2)).ViewData.Model as Idea;
+            Idea i3 = ((ViewResult)target.Edit(3)).ViewData.Model as Idea;
 
             // Assert
             Assert.AreEqual(1, i1.IdeaID);
@@ -52,10 +52,10 @@ namespace IdeaStorm.UnitTests
             IdeaController target = new IdeaController(mock.Object);
 
             // Act
-            Idea result = (Idea) target.Edit(4).ViewData.Model;
+            ActionResult result = target.Edit(4);
 
             // Assert
-            Assert.IsNull(result);
+            Assert.IsInstanceOfType(result, typeof(HttpNotFoundResult));
         }
 
         [TestMethod]

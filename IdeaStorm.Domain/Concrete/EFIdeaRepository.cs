@@ -37,5 +37,11 @@ namespace IdeaStorm.Domain.Concrete
             }
             context.SaveChanges();
         }
+
+        public void DeleteIdea(Idea idea)
+        {
+            context.Ideas.Remove(idea);
+            context.SaveChanges();
+        }
     }
 }

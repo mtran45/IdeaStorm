@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 
@@ -14,9 +15,11 @@ namespace IdeaStorm.Domain.Entities
         public int UserID { get; set; }
 
         [HiddenInput(DisplayValue = false)]
+        [DisplayName("Created Time")]
         public DateTime CreatedTime { get; set; }
 
         [HiddenInput(DisplayValue = false)]
+        [DisplayName("Updated Time")]
         public DateTime UpdatedTime { get; set; }
 
         [Required(ErrorMessage = "Please enter an idea name")]
