@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.WebPages;
@@ -24,9 +25,13 @@ namespace IdeaStorm.WebUI.Controllers
             return View(repository.Ideas);
         }
 
-        public ViewResult Edit(int id)
+        public ActionResult Edit(int id)
         {
-            Idea idea = repository.Ideas.FirstOrDefault(i => i.IdeaID == id);
+            Idea idea = repository.FindIdea(id);
+            if (idea == null)
+            {
+                return HttpNotFound();
+            }
             return View(idea);
         }
 
@@ -61,6 +66,25 @@ namespace IdeaStorm.WebUI.Controllers
                 return RedirectToAction("List");
             }
             return View(idea);
+        }
+
+        public ActionResult Delete(int id)
+        {
+            Idea idea = repository.FindIdea(id);
+            if (idea == null)
+            {
+                return HttpNotFound();
+            }
+            return View(idea);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public ActionResult DeleteIdea(int id)
+        {
+            Idea idea = repository.FindIdea(id);
+            repository.DeleteIdea(idea);
+            TempData["message"] = string.Format($"\"{idea.Name}\" has been deleted");
+            return RedirectToAction("List");
         }
 
         public ViewResult Brainstorm()

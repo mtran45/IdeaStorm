@@ -200,6 +200,7 @@
     <Content Include="Views\Idea\Edit.cshtml" />
     <Content Include="Views\Idea\Brainstorm.cshtml" />
     <Content Include="Views\Idea\Create.cshtml" />
+    <Content Include="Views\Idea\Delete.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

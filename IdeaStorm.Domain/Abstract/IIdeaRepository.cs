@@ -12,5 +12,8 @@ namespace IdeaStorm.Domain.Abstract
         IEnumerable<Idea> Ideas { get; }
 
         void SaveIdea(Idea idea);
+        void DeleteIdea(Idea idea);
+
+        Idea FindIdea(int id);
     }
 }
