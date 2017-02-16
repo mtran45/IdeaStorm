@@ -1,12 +1,12 @@
 ﻿@model IdeaStorm.Domain.Entities.Idea
 
 @{
-    ViewBag.Title = "Edit " + @Model.Name;
+    ViewBag.Title = "Edit " + @Model.Title;
 }
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h3>Edit @Model.Name</h3>
+        <h3>Edit @Model.Title</h3>
     </div>
 
     @using (Html.BeginForm("Edit", "Idea"))

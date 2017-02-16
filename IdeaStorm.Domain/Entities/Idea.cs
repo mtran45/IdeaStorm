@@ -22,8 +22,8 @@ namespace IdeaStorm.Domain.Entities
         [DisplayName("Updated Time")]
         public DateTime UpdatedTime { get; set; }
 
-        [Required(ErrorMessage = "Please enter an idea name")]
-        public string Name { get; set; }
+        [Required(ErrorMessage = "Please enter an idea title")]
+        public string Title { get; set; }
 
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
@@ -40,9 +40,9 @@ namespace IdeaStorm.Domain.Entities
             UserID = 1;
         }
 
-        public Idea(string name) : this()
+        public Idea(string title) : this()
         {
-            Name = name;
+            Title = title;
         }
     }
 }

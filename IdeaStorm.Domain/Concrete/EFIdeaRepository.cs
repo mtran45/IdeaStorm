@@ -29,7 +29,7 @@ namespace IdeaStorm.Domain.Concrete
                 Idea dbEntry = context.Ideas.Find(idea.IdeaID);
                 if (dbEntry != null)
                 {
-                    dbEntry.Name = idea.Name;
+                    dbEntry.Title = idea.Title;
                     dbEntry.Description = idea.Description;
                     dbEntry.Category = idea.Category;
                     dbEntry.UpdatedTime = idea.UpdatedTime;

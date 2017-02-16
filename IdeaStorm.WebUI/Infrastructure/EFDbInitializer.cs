@@ -22,11 +22,11 @@ namespace IdeaStorm.WebUI.Infrastructure
 
             var ideas = new List<Idea>
             {
-                new Idea {UserID=1, Name ="My Great Idea", Description ="The description for the idea here", Category="Misc"},
-                new Idea {UserID=1, Name="IdeaStorm", Description="A webapp for brainstorming ideas", Category="Web App"},
-                new Idea {UserID=2, Name="J-Reader", Description="A web app for reading japanese ebooks", Category="Web App"},
-                new Idea {UserID=3, Name="Jukugo Basket", Description="A virtual replication of the card game", Category="Game"},
-                new Idea {UserID=1, Name="My Great Idea 2", Description="The second revision of my great idea", Category="Misc"}
+                new Idea {UserID=1, Title ="My Great Idea", Description ="The description for the idea here", Category="Misc"},
+                new Idea {UserID=1, Title="IdeaStorm", Description="A webapp for brainstorming ideas", Category="Web App"},
+                new Idea {UserID=2, Title="J-Reader", Description="A web app for reading japanese ebooks", Category="Web App"},
+                new Idea {UserID=3, Title="Jukugo Basket", Description="A virtual replication of the card game", Category="Game"},
+                new Idea {UserID=1, Title="My Great Idea 2", Description="The second revision of my great idea", Category="Misc"}
             };
             ideas.ForEach(i => context.Ideas.Add(i));
             context.SaveChanges();

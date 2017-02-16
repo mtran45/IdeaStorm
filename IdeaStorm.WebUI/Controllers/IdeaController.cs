@@ -47,7 +47,7 @@ namespace IdeaStorm.WebUI.Controllers
             if (ModelState.IsValid)
             {
                 repository.SaveIdea(idea);
-                TempData["message"] = string.Format($"\"{idea.Name}\" has been saved");
+                TempData["message"] = string.Format($"\"{idea.Title}\" has been saved");
                 return RedirectToAction("List");
             }
             else
@@ -63,12 +63,12 @@ namespace IdeaStorm.WebUI.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create([Bind(Include = "Name,Description,Category")] Idea idea)
+        public ActionResult Create([Bind(Include = "Title,Description,Category")] Idea idea)
         {
             if (ModelState.IsValid)
             {
                 repository.SaveIdea(idea);
-                TempData["message"] = string.Format($"\"{idea.Name}\" has been added");
+                TempData["message"] = string.Format($"\"{idea.Title}\" has been added");
                 return RedirectToAction("List");
             }
             return View(idea);
@@ -89,7 +89,7 @@ namespace IdeaStorm.WebUI.Controllers
         {
             Idea idea = FindIdea(id);
             repository.DeleteIdea(idea);
-            TempData["message"] = string.Format($"\"{idea.Name}\" has been deleted");
+            TempData["message"] = string.Format($"\"{idea.Title}\" has been deleted");
             return RedirectToAction("List");
         }
 
