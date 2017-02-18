@@ -20,13 +20,30 @@ namespace IdeaStorm.WebUI.Infrastructure
             users.ForEach(u => context.Users.Add(u));
             context.SaveChanges();
 
+            var storms = new List<Storm>
+            {
+                new Storm {UserID=1, Title="Example Storm"}
+            };
+            storms.ForEach(s => context.Storms.Add(s));
+            context.SaveChanges();
+
             var ideas = new List<Idea>
             {
                 new Idea {UserID=1, Title ="My Great Idea", Description ="The description for the idea here", Category="Misc"},
                 new Idea {UserID=1, Title="IdeaStorm", Description="A webapp for brainstorming ideas", Category="Web App"},
                 new Idea {UserID=2, Title="J-Reader", Description="A web app for reading japanese ebooks", Category="Web App"},
                 new Idea {UserID=3, Title="Jukugo Basket", Description="A virtual replication of the card game", Category="Game"},
-                new Idea {UserID=1, Title="My Great Idea 2", Description="The second revision of my great idea", Category="Misc"}
+                new Idea {UserID=1, Title="My Great Idea 2", Description="The second revision of my great idea", Category="Misc"},
+                new Idea {UserID=1, Title="Storm Idea 1", StormID=1},
+                new Idea {UserID=1, Title="Storm Idea 2", StormID=1},
+                new Idea {UserID=1, Title="Storm Idea 3", StormID=1},
+                new Idea {UserID=1, Title="Storm Idea 4", StormID=1},
+                new Idea {UserID=1, Title="Storm Idea 5", StormID=1},
+                new Idea {UserID=1, Title="Storm Idea 6", StormID=1},
+                new Idea {UserID=1, Title="Storm Idea 7", StormID=1},
+                new Idea {UserID=1, Title="Storm Idea 8", StormID=1},
+                new Idea {UserID=1, Title="Storm Idea 9", StormID=1},
+                new Idea {UserID=1, Title="Storm Idea 10", StormID=1}
             };
             ideas.ForEach(i => context.Ideas.Add(i));
             context.SaveChanges();

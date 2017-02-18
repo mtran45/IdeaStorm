@@ -11,6 +11,7 @@ namespace IdeaStorm.Domain.Entities
         public int StormID { get; set; }
         public int UserID { get; set; }
         public string Title { get; set; }
+        public string Description { get; set; }
         public DateTime CreatedTime { get; set; }
         public DateTime UpdatedTime { get; set; }
 
@@ -18,5 +19,10 @@ namespace IdeaStorm.Domain.Entities
         public virtual ICollection<Idea> Ideas { get; set; }
         public virtual User User { get; set; }
 
+        public Storm()
+        {
+            CreatedTime = DateTime.Now;
+            UpdatedTime = DateTime.Now;
+        }
     }
 }
