@@ -32,3 +32,18 @@ textarea {
 #idea-desc {
     margin-top: 5px;
 }
+
+.subtitle {
+    font-size: 11px;
+    margin-top: 3px;
+    margin-bottom: -5px;
+}
+
+.storm-card > .panel-body {
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
+.storm-card > .panel-heading > a {
+    font-weight: bold;
+}

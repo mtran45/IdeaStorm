@@ -22,7 +22,8 @@ namespace IdeaStorm.WebUI.Infrastructure
 
             var storms = new List<Storm>
             {
-                new Storm {UserID=1, Title="Example Storm"}
+                new Storm {UserID=1, Title="Example Storm"},
+                new Storm {UserID=1, Title="Brainstorm 19/2"},
             };
             storms.ForEach(s => context.Storms.Add(s));
             context.SaveChanges();
@@ -43,7 +44,10 @@ namespace IdeaStorm.WebUI.Infrastructure
                 new Idea {UserID=1, Title="Storm Idea 7", StormID=1},
                 new Idea {UserID=1, Title="Storm Idea 8", StormID=1},
                 new Idea {UserID=1, Title="Storm Idea 9", StormID=1},
-                new Idea {UserID=1, Title="Storm Idea 10", StormID=1}
+                new Idea {UserID=1, Title="Storm Idea 10", StormID=1},
+                new Idea {UserID=1, Title="Brainstorm 1", StormID=1},
+                new Idea {UserID=1, Title="Brainstorm 2", StormID=1},
+                new Idea {UserID=1, Title="Brainstorm 3", StormID=1},
             };
             ideas.ForEach(i => context.Ideas.Add(i));
             context.SaveChanges();

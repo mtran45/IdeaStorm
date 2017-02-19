@@ -1,7 +1,7 @@
 ﻿@model IdeaStorm.Domain.Entities.Idea
 
 @{
-    ViewBag.Title = "Edit " + @Model.Title;
+    ViewBag.Title = "Edit " + Model.Title;
 }
 
 <div class="panel panel-default">
@@ -13,39 +13,40 @@
     {
         <div class="panel-body">
             @Html.HiddenFor(m => m.IdeaID)
-            @foreach (var property in ViewData.ModelMetadata.Properties)
-            {
-                <div class="form-group">
-                    @switch (property.PropertyName)
-                    {
-                        case "User":
-                            <label>Author</label>
-                            <div>@Model.User.Username</div>
-                            break;
-                        case "IdeaID":
-                        case "CreatedTime":
-                        case "UpdatedTime":
-                        case "UserID":
-                            <label>@(property.DisplayName ?? property.PropertyName)</label>
-                            <div>@property.Model</div>
-                            break;
-                        default:
-                            <label>@(property.DisplayName ?? property.PropertyName)</label>
-                            if (property.PropertyName == "Description")
-                            {
-                                @Html.TextArea(property.PropertyName, null,
-                                                    new { @class = "form-control", rows = 5 })
-                            }
-                            else
-                            {
-                                @Html.TextBox(property.PropertyName, null,
-                                                    new { @class = "form-control" })
-                            }
-                            @Html.ValidationMessage(property.PropertyName)
-                            break;
-                    }
-                </div>
-            }
+            <div class="form-group">
+                <label>IdeaID</label>
+                <div>@Model.IdeaID</div>
+
+                <label>Author</label>
+                <div>@Model.User.Username</div>
+
+                <label>UserID</label>
+                <div>@Model.UserID</div>
+
+                @if (Model.Storm != null)
+                {
+                    <label>Storm</label>
+                        <div>@(Model.Storm.Title)</div>
+
+                        <label>StormID</label>
+                        <div>@(Model.Storm.StormID)</div>
+                }
+
+                <label>Title</label>
+                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+
+                <label>Description</label>
+                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", rows = 5 } })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+
+                <label>Created Time</label>
+                <div>@Model.CreatedTime</div>
+
+                <label>Updated Time</label>
+                <div>@Model.UpdatedTime</div>
+            </div>
+
         </div>
 
         <div class="panel-footer">

@@ -49,3 +49,30 @@
 }
 
 </table>
+
+@foreach (var storm in Model)
+{
+    <div class="panel panel-default storm-card" style="width: 20rem;">
+        <div class="panel-heading">
+            @Html.ActionLink(storm.Title, "Details", new { id = storm.StormID })
+            <div class="subtitle text-muted">
+                <strong>@storm.User.Username</strong>
+                <span title="@storm.CreatedTime">@storm.CreatedTime.ToShortDateString()</span>
+            </div>
+        </div>
+        <div class="panel-body">
+            <table class="storm-card">
+                @foreach (var idea in storm.Ideas)
+                {
+                    <tr>
+                        <td>
+                            
+                            @Html.ActionLink(idea.Title, "Edit", "Idea", new { id = idea.IdeaID }, null)
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+
+}
