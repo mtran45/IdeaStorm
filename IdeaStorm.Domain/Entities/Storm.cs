@@ -23,6 +23,7 @@ namespace IdeaStorm.Domain.Entities
         {
             CreatedTime = DateTime.Now;
             UpdatedTime = DateTime.Now;
+            UserID = 1;
         }
     }
 }

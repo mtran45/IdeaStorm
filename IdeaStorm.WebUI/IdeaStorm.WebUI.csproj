@@ -199,7 +199,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Idea\Edit.cshtml" />
-    <Content Include="Views\Idea\Brainstorm.cshtml" />
+    <Content Include="Views\Storm\Brainstorm.cshtml" />
     <Content Include="Views\Idea\Create.cshtml" />
     <Content Include="Views\Idea\Delete.cshtml" />
     <Content Include="Views\Storm\Create.cshtml" />

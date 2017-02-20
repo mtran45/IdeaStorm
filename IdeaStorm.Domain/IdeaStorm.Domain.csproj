@@ -78,8 +78,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\IIdeaRepository.cs" />
+    <Compile Include="Abstract\IStormRepository.cs" />
     <Compile Include="Concrete\EFDbContext.cs" />
     <Compile Include="Concrete\EFIdeaRepository.cs" />
+    <Compile Include="Concrete\EFStormRepository.cs" />
     <Compile Include="Entities\Idea.cs" />
     <Compile Include="Entities\Storm.cs" />
     <Compile Include="Entities\User.cs" />

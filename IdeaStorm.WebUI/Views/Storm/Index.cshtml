@@ -52,7 +52,7 @@
 
 @foreach (var storm in Model)
 {
-    <div class="panel panel-default storm-card" style="width: 20rem;">
+    <div class="panel panel-default storm-card">
         <div class="panel-heading">
             @Html.ActionLink(storm.Title, "Details", new { id = storm.StormID })
             <div class="subtitle text-muted">
@@ -60,19 +60,17 @@
                 <span title="@storm.CreatedTime">@storm.CreatedTime.ToShortDateString()</span>
             </div>
         </div>
-        <div class="panel-body">
-            <table class="storm-card">
-                @foreach (var idea in storm.Ideas)
+        <table class="table">
+            @foreach (var idea in storm.Ideas)
                 {
-                    <tr>
-                        <td>
-                            
-                            @Html.ActionLink(idea.Title, "Edit", "Idea", new { id = idea.IdeaID }, null)
-                        </td>
-                    </tr>
-                }
-            </table>
-        </div>
+                <tr>
+                    <td>
+
+                        @Html.ActionLink(idea.Title, "Edit", "Idea", new { id = idea.IdeaID }, null)
+                    </td>
+                </tr>
+            }
+        </table>
     </div>
 
 }

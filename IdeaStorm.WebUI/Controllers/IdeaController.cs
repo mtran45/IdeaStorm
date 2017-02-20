@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Web;
+﻿using System.Linq;
 using System.Web.Mvc;
-using System.Web.WebPages;
-using Castle.Core.Internal;
 using IdeaStorm.Domain.Abstract;
 using IdeaStorm.Domain.Entities;
 
@@ -15,21 +9,23 @@ namespace IdeaStorm.WebUI.Controllers
     {
         private IIdeaRepository repository;
 
-        public Idea FindIdea(int id)
-        {
-            return repository.Ideas.FirstOrDefault(i => i.IdeaID == id);
-        }
-
         public IdeaController(IIdeaRepository ideaRepository)
         {
             this.repository = ideaRepository;
         }
 
+        public Idea FindIdea(int id)
+        {
+            return repository.Ideas.FirstOrDefault(i => i.IdeaID == id);
+        }
+
+        // GET: /
         public ViewResult List()
         {
             return View(repository.Ideas);
         }
 
+        // GET: Idea/Edit/5
         public ActionResult Edit(int id)
         {
             //Idea idea = repository.FindIdea(id);
@@ -41,13 +37,14 @@ namespace IdeaStorm.WebUI.Controllers
             return View(idea);
         }
 
+        // POST: Idea/Edit/5
         [HttpPost]
         public ActionResult Edit(Idea idea)
         {
             if (ModelState.IsValid)
             {
                 repository.SaveIdea(idea);
-                TempData["message"] = string.Format($"\"{idea.Title}\" has been saved");
+                TempData["message"] = string.Format($"\"{idea.Title}\" has been updated");
                 return RedirectToAction("List");
             }
             else
@@ -57,11 +54,13 @@ namespace IdeaStorm.WebUI.Controllers
             }
         }
 
+        // GET: Idea/Create
         public ViewResult Create()
         {
             return View(new Idea());
         }
 
+        // POST: Idea/Create
         [HttpPost]
         public ActionResult Create([Bind(Include = "Title,Description,Category")] Idea idea)
         {
@@ -74,6 +73,7 @@ namespace IdeaStorm.WebUI.Controllers
             return View(idea);
         }
 
+        // GET: Idea/Delete/5
         public ActionResult Delete(int id)
         {
             Idea idea = FindIdea(id);
@@ -84,6 +84,7 @@ namespace IdeaStorm.WebUI.Controllers
             return View(idea);
         }
 
+        // POST: Idea/Delete/5
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteIdea(int id)
         {
@@ -92,24 +93,5 @@ namespace IdeaStorm.WebUI.Controllers
             TempData["message"] = string.Format($"\"{idea.Title}\" has been deleted");
             return RedirectToAction("List");
         }
-
-        public ViewResult Brainstorm()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult Brainstorm(IList<string> ideas)
-        {
-            int saved = 0;
-            foreach (var i in ideas)
-            {
-                if (i.Trim().IsEmpty()) continue;
-                repository.SaveIdea(new Idea(i));
-                saved++;
-            }
-            TempData["message"] = string.Format($"{saved} ideas added");
-            return RedirectToAction("List");
-        } 
     }
 }

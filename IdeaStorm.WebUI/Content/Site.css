@@ -39,9 +39,11 @@ textarea {
     margin-bottom: -5px;
 }
 
-.storm-card > .panel-body {
-    padding-bottom: 10px;
-    padding-top: 10px;
+.storm-card {
+    display: inline-table;
+    height: 425px;
+    margin: 5px;
+    width: 20rem;
 }
 
 .storm-card > .panel-heading > a {

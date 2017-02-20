@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
+using System.Web.WebPages;
+using IdeaStorm.Domain.Abstract;
 using IdeaStorm.Domain.Concrete;
 using IdeaStorm.Domain.Entities;
 
@@ -13,13 +13,26 @@ namespace IdeaStorm.WebUI.Controllers
 {
     public class StormController : Controller
     {
-        private EFDbContext db = new EFDbContext();
+        private IStormRepository stormRepo;
+        private IIdeaRepository ideaRepo;
+        //private EFDbContext db = new EFDbContext();
+
+        public StormController(IStormRepository stormRepo, IIdeaRepository ideaRepo)
+        {
+            this.stormRepo = stormRepo;
+            this.ideaRepo = ideaRepo;
+        }
+
+        public Storm FindStorm(int id)
+        {
+            return stormRepo.Storms.FirstOrDefault(s => s.StormID == id);
+        }
 
         // GET: Storm
         public ActionResult Index()
         {
-            var storms = db.Storms.Include(s => s.User);
-            return View(storms.ToList());
+            // var storms = db.Storms.Include(s => s.User);
+            return View(stormRepo.Storms);
         }
 
         // GET: Storm/Details/5
@@ -29,7 +42,7 @@ namespace IdeaStorm.WebUI.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Storm storm = db.Storms.Find(id);
+            Storm storm = FindStorm((int)id);
             if (storm == null)
             {
                 return HttpNotFound();
@@ -40,7 +53,6 @@ namespace IdeaStorm.WebUI.Controllers
         // GET: Storm/Create
         public ActionResult Create()
         {
-            ViewBag.UserID = new SelectList(db.Users, "UserID", "Username");
             return View();
         }
 
@@ -53,12 +65,10 @@ namespace IdeaStorm.WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Storms.Add(storm);
-                db.SaveChanges();
+                stormRepo.SaveStorm(storm);
+                TempData["message"] = string.Format($"\"{storm.Title}\" has been added");
                 return RedirectToAction("Index");
             }
-
-            ViewBag.UserID = new SelectList(db.Users, "UserID", "Username", storm.UserID);
             return View(storm);
         }
 
@@ -69,12 +79,11 @@ namespace IdeaStorm.WebUI.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Storm storm = db.Storms.Find(id);
+            Storm storm = FindStorm((int)id);
             if (storm == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.UserID = new SelectList(db.Users, "UserID", "Username", storm.UserID);
             return View(storm);
         }
 
@@ -87,11 +96,10 @@ namespace IdeaStorm.WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(storm).State = EntityState.Modified;
-                db.SaveChanges();
+                stormRepo.SaveStorm(storm);
+                TempData["message"] = string.Format($"\"{storm.Title}\" has been updated");
                 return RedirectToAction("Index");
             }
-            ViewBag.UserID = new SelectList(db.Users, "UserID", "Username", storm.UserID);
             return View(storm);
         }
 
@@ -102,7 +110,7 @@ namespace IdeaStorm.WebUI.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Storm storm = db.Storms.Find(id);
+            Storm storm = FindStorm((int)id);
             if (storm == null)
             {
                 return HttpNotFound();
@@ -115,19 +123,37 @@ namespace IdeaStorm.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Storm storm = db.Storms.Find(id);
-            db.Storms.Remove(storm);
-            db.SaveChanges();
+            Storm storm = FindStorm(id);
+            stormRepo.DeleteStorm(storm);
+//            db.Storms.Remove(storm);
+//            db.SaveChanges();
+            TempData["message"] = string.Format($"\"{storm.Title}\" has been deleted");
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
+        // GET: Storm/Brainstorm
+        public ViewResult Brainstorm()
         {
-            if (disposing)
+            return View();
+        }
+
+        // POST: Storm/Brainstorm
+        [HttpPost]
+        public ActionResult Brainstorm(IList<string> ideaTitles)
+        {
+            Storm storm = new Storm();
+            storm.Title = "Brainstorm " + DateTime.Today.ToShortDateString();
+            foreach (var title in ideaTitles)
             {
-                db.Dispose();
+                if (title.Trim().IsEmpty()) continue;
+                Idea idea = new Idea(title);
+                idea.Storm = storm;
+                idea.StormID = storm.StormID;
+                ideaRepo.SaveIdea(idea);
             }
-            base.Dispose(disposing);
+            if (storm.Ideas.Count > 0) stormRepo.SaveStorm(storm);
+            TempData["message"] = string.Format($"{storm.Ideas.Count} ideas added");
+            return RedirectToAction("Index");
         }
     }
 }

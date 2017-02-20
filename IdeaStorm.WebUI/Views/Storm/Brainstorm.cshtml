@@ -14,14 +14,14 @@
         <div class="panel-body">
             @for (var i = 0; i < 10; i++)
             {
-                @Html.TextBox("ideas", null, 
+                @Html.TextBox("ideaTitles", null, 
                new { @class = "form-control", placeholder = "Idea " + (i+1)  })
             }
         </div>
 
         <div class="panel-footer">
             <input type="submit" value="Save" class="btn btn-primary" />
-            @Html.ActionLink("Cancel and return to List", "List", null,
+            @Html.ActionLink("Cancel and return to List", "Index", null,
                                 new { @class = "btn btn-default" })
         </div>
     }
