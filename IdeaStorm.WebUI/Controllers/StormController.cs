@@ -50,28 +50,6 @@ namespace IdeaStorm.WebUI.Controllers
             return View(storm);
         }
 
-        // GET: Storm/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Storm/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "StormID,UserID,Title,CreatedTime,UpdatedTime")] Storm storm)
-        {
-            if (ModelState.IsValid)
-            {
-                stormRepo.SaveStorm(storm);
-                TempData["message"] = string.Format($"\"{storm.Title}\" has been added");
-                return RedirectToAction("Index");
-            }
-            return View(storm);
-        }
-
         // GET: Storm/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -148,7 +126,6 @@ namespace IdeaStorm.WebUI.Controllers
                 if (title.Trim().IsEmpty()) continue;
                 Idea idea = new Idea(title);
                 idea.Storm = storm;
-                idea.StormID = storm.StormID;
                 ideaRepo.SaveIdea(idea);
             }
             if (storm.Ideas.Count > 0) stormRepo.SaveStorm(storm);

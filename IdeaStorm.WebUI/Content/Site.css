@@ -49,3 +49,7 @@ textarea {
 .storm-card > .panel-heading > a {
     font-weight: bold;
 }
+
+.label {
+    margin-left: 5px;
+}
