@@ -24,6 +24,8 @@ textarea {
     max-width: 100%;
 }
 
+/* Idea List */
+
 .tagline {
     font-size: 75%;
     opacity: .8;
@@ -32,6 +34,12 @@ textarea {
 #idea-desc {
     margin-top: 5px;
 }
+
+.label {
+    margin-left: 5px;
+}
+
+/* Storm List */
 
 .subtitle {
     font-size: 11px;
@@ -50,12 +58,15 @@ textarea {
     font-weight: bold;
 }
 
-.label {
-    margin-left: 5px;
-}
+/* Brainstorm */
 
 .panel.brainstorm {
     width: 30rem;
+}
+
+.brainstorm .panel-heading {
+    background-color: #f5f5f5;
+    border-bottom: 1px solid #ddd;
 }
 
 .brainstorm h4 {
