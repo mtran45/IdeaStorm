@@ -1,10 +1,10 @@
 ﻿@model IdeaStorm.Domain.Entities.Storm
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = Model.Title;
 }
 
-<h2>Details</h2>
+<h2>@Model.Title</h2>
 
 <div>
     <h4>Storm</h4>
@@ -47,9 +47,6 @@
         </dt>
         <dd>
             <table class="table">
-                <tr>
-                    <th>Title</th>
-                </tr>
                 @foreach (var item in Model.Ideas)
                 {
                     <tr>
@@ -64,6 +61,8 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.StormID }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Delete", "Delete", new { id = Model.StormID }, 
+        new { @class = "btn btn-warning"})
+    @Html.ActionLink("Back to List", "Index", null, 
+        new { @class = "btn btn-default" })
 </p>

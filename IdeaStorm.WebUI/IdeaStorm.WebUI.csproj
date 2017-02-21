@@ -202,10 +202,8 @@
     <Content Include="Views\Storm\Brainstorm.cshtml" />
     <Content Include="Views\Idea\Create.cshtml" />
     <Content Include="Views\Idea\Delete.cshtml" />
-    <Content Include="Views\Storm\Create.cshtml" />
     <Content Include="Views\Storm\Delete.cshtml" />
     <Content Include="Views\Storm\Details.cshtml" />
-    <Content Include="Views\Storm\Edit.cshtml" />
     <Content Include="Views\Storm\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

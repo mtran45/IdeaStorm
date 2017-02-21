@@ -4,26 +4,31 @@
 
 <h2>Brainstorm</h2>
 
-<div class="panel panel-default">
-    <div class="panel-heading">
-        Enter <span id="brainstorm-remaining">10</span> more idea(s)
-    </div>
-
+<div class="panel panel-default brainstorm">
     @using (Html.BeginForm())
     {
-        <div class="panel-body">
-            @for (var i = 0; i < 10; i++)
-            {
-                @Html.TextBox("ideaTitles", null, 
-               new { @class = "form-control", placeholder = "Idea " + (i+1)  })
-            }
-        </div>
+    <div class="panel-heading">
+        @Html.TextBox("stormTitle", "Brainstorm " + DateTime.Today.ToShortDateString(),
+                      new {@class = "form-control", placeholder = "Storm Title"})
+    </div>
 
-        <div class="panel-footer">
-            <input type="submit" value="Save" class="btn btn-primary" />
-            @Html.ActionLink("Cancel and return to List", "Index", null,
-                                new { @class = "btn btn-default" })
-        </div>
+    <h4>
+        Enter <span id="brainstorm-remaining">10</span> more idea(s)
+    </h4>
+
+    <div class="panel-body">
+        @for (var i = 0; i < 10; i++)
+        {
+            @Html.TextBox("ideaTitles", null,
+                          new {@class = "form-control", placeholder = "Idea " + (i + 1)})
+        }
+    </div>
+
+    <div class="panel-footer">
+        <input type="submit" value="Save" class="btn btn-primary"/>
+        @Html.ActionLink("Cancel and return to List", "Index", null,
+                         new {@class = "btn btn-default"})
+    </div>
     }
 </div>
 
@@ -32,7 +37,7 @@
     <script>
         function update_remaining() {
             var remaining = 0;
-            $("input").each(function() {
+            $(".panel-body > input").each(function () {
                 if ($(this).val().trim().length === 0) {
                     remaining++;
                 }
@@ -41,11 +46,11 @@
         }
 
         $(document).ready(function() {
-            $("input").blur(function() {
+            $(".panel-body > input").blur(function () {
                 update_remaining();
             });
             update_remaining();
-            $("input").first().focus();
+            $("#stormTitle").select();
         });
     </script>
 }

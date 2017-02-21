@@ -50,37 +50,6 @@ namespace IdeaStorm.WebUI.Controllers
             return View(storm);
         }
 
-        // GET: Storm/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Storm storm = FindStorm((int)id);
-            if (storm == null)
-            {
-                return HttpNotFound();
-            }
-            return View(storm);
-        }
-
-        // POST: Storm/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "StormID,UserID,Title,CreatedTime,UpdatedTime")] Storm storm)
-        {
-            if (ModelState.IsValid)
-            {
-                stormRepo.SaveStorm(storm);
-                TempData["message"] = string.Format($"\"{storm.Title}\" has been updated");
-                return RedirectToAction("Index");
-            }
-            return View(storm);
-        }
-
         // GET: Storm/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -117,10 +86,10 @@ namespace IdeaStorm.WebUI.Controllers
 
         // POST: Storm/Brainstorm
         [HttpPost]
-        public ActionResult Brainstorm(IList<string> ideaTitles)
+        public ActionResult Brainstorm(string stormTitle, IList<string> ideaTitles)
         {
             Storm storm = new Storm();
-            storm.Title = "Brainstorm " + DateTime.Today.ToShortDateString();
+            storm.Title = stormTitle;
             foreach (var title in ideaTitles)
             {
                 if (title.Trim().IsEmpty()) continue;

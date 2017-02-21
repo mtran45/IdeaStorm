@@ -6,47 +6,6 @@
 
 <h2>Storms</h2>
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.User.Username)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CreatedTime)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.UpdatedTime)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.User.Username)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CreatedTime)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UpdatedTime)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.StormID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.StormID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.StormID })
-        </td>
-    </tr>
-}
-
-</table>
-
 @foreach (var storm in Model)
 {
     <div class="panel panel-default storm-card">

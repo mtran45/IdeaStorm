@@ -53,3 +53,17 @@ textarea {
 .label {
     margin-left: 5px;
 }
+
+.panel.brainstorm {
+    width: 30rem;
+}
+
+.brainstorm h4 {
+    margin: 10px 10px 0 10px;
+    text-align: center;
+}
+
+#brainstorm-remaining {
+    color: #428bca;
+    font-weight: bold;
+}
