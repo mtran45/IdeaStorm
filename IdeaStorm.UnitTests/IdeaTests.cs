@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Web.Mvc;
 using IdeaStorm.Domain.Abstract;
 using IdeaStorm.Domain.Entities;
@@ -143,28 +140,6 @@ namespace IdeaStorm.UnitTests
 
             // Assert - ensure that the repository delete method was called with correct Idea
             mock.Verify(m => m.DeleteIdea(idea));
-        }
-
-        [TestMethod]
-        public void Can_Bulk_Create_Ideas_With_Brainstorm()
-        {
-            // Arrange - create a list of idea names
-            string[] arr = {"I1", "I2", "I3"};
-            List<string> ideas = new List<string>(arr);
-
-            // Arrange - create the mock repo
-            Mock<IIdeaRepository> mock = new Mock<IIdeaRepository>();
-
-            // Arrange - create the controller
-            IdeaController target = new IdeaController(mock.Object);
-
-            // Act
-            target.Brainstorm(ideas);
-
-            // Assert - ensure that the repository create method was called with correct titles
-            mock.Verify(m => m.SaveIdea(It.Is<Idea>(i => i.Title == "I1")), Times.Once);
-            mock.Verify(m => m.SaveIdea(It.Is<Idea>(i => i.Title == "I2")), Times.Once);
-            mock.Verify(m => m.SaveIdea(It.Is<Idea>(i => i.Title == "I3")), Times.Once);
         }
     }
 }

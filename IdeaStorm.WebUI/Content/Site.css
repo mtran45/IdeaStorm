@@ -58,6 +58,10 @@ textarea {
     font-weight: bold;
 }
 
+.storm-card .table tbody > tr > td {
+    padding: 8px 15px;
+}
+
 /* Brainstorm */
 
 .panel.brainstorm {

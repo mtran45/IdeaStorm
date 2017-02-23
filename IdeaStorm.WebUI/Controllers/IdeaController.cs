@@ -22,7 +22,7 @@ namespace IdeaStorm.WebUI.Controllers
         // GET: /
         public ViewResult List()
         {
-            return View(repository.Ideas);
+            return View(repository.Ideas.OrderByDescending(i => i.CreatedTime));
         }
 
         // GET: Idea/Edit/5

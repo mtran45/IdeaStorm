@@ -68,12 +68,10 @@ namespace IdeaStorm.WebUI.Controllers
         // POST: Storm/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteStorm(int id)
         {
             Storm storm = FindStorm(id);
             stormRepo.DeleteStorm(storm);
-//            db.Storms.Remove(storm);
-//            db.SaveChanges();
             TempData["message"] = string.Format($"\"{storm.Title}\" has been deleted");
             return RedirectToAction("Index");
         }
@@ -88,17 +86,17 @@ namespace IdeaStorm.WebUI.Controllers
         [HttpPost]
         public ActionResult Brainstorm(string stormTitle, IList<string> ideaTitles)
         {
+            var filteredTitles = ideaTitles.Where(it => !string.IsNullOrWhiteSpace(it)).ToList();
             Storm storm = new Storm();
             storm.Title = stormTitle;
-            foreach (var title in ideaTitles)
+            foreach (var title in filteredTitles)
             {
-                if (title.Trim().IsEmpty()) continue;
                 Idea idea = new Idea(title);
                 idea.Storm = storm;
                 ideaRepo.SaveIdea(idea);
             }
-            if (storm.Ideas.Count > 0) stormRepo.SaveStorm(storm);
-            TempData["message"] = string.Format($"{storm.Ideas.Count} ideas added");
+            if (filteredTitles.Any()) stormRepo.SaveStorm(storm);
+            TempData["message"] = string.Format($"{filteredTitles.Count} ideas added");
             return RedirectToAction("Index");
         }
     }
