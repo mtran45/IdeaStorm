@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using IdeaStorm.Domain.Concrete;
 using IdeaStorm.Domain.Entities;
 
@@ -11,19 +9,36 @@ namespace IdeaStorm.WebUI.Infrastructure
     {
         protected override void Seed(EFDbContext context)
         {
+            var user = new User
+            {
+                Username = "default_user",
+                CreatedTime = DateTime.Parse("2005-09-01")
+            };
+
             var users = new List<User>
             {
-                new User {Username="default_user", CreatedTime=DateTime.Parse("2005-09-01")},
+                user,
                 new User {Username="bill", CreatedTime=DateTime.Parse("2002-08-05")},
                 new User {Username="ben", CreatedTime=DateTime.Parse("2010-02-09")},
             };
             users.ForEach(u => context.Users.Add(u));
             context.SaveChanges();
 
+            var storm = new Storm()
+            {
+                UserID = 1,
+                Title = "Example Storm"
+            };
+
+            var storm2 = new Storm()
+            {
+                UserID = 1,
+                Title = "Brainstorm 19/2"
+            };
+
             var storms = new List<Storm>
             {
-                new Storm {UserID=1, Title="Example Storm"},
-                new Storm {UserID=1, Title="Brainstorm 19/2"},
+                storm, storm2
             };
             storms.ForEach(s => context.Storms.Add(s));
             context.SaveChanges();
@@ -35,21 +50,27 @@ namespace IdeaStorm.WebUI.Infrastructure
                 new Idea {UserID=2, Title="J-Reader", Description="A web app for reading japanese ebooks", Category="Web App"},
                 new Idea {UserID=3, Title="Jukugo Basket", Description="A virtual replication of the card game", Category="Game"},
                 new Idea {UserID=1, Title="My Great Idea 2", Description="The second revision of my great idea", Category="Misc"},
-                new Idea {UserID=1, Title="Storm Idea 1", StormID=1},
-                new Idea {UserID=1, Title="Storm Idea 2", StormID=1},
-                new Idea {UserID=1, Title="Storm Idea 3", StormID=1},
-                new Idea {UserID=1, Title="Storm Idea 4", StormID=1},
-                new Idea {UserID=1, Title="Storm Idea 5", StormID=1},
-                new Idea {UserID=1, Title="Storm Idea 6", StormID=1},
-                new Idea {UserID=1, Title="Storm Idea 7", StormID=1},
-                new Idea {UserID=1, Title="Storm Idea 8", StormID=1},
-                new Idea {UserID=1, Title="Storm Idea 9", StormID=1},
-                new Idea {UserID=1, Title="Storm Idea 10", StormID=1},
-                new Idea {UserID=1, Title="Brainstorm 1", StormID=1},
-                new Idea {UserID=1, Title="Brainstorm 2", StormID=1},
-                new Idea {UserID=1, Title="Brainstorm 3", StormID=1},
             };
             ideas.ForEach(i => context.Ideas.Add(i));
+            context.SaveChanges();
+
+            var sparks = new List<Spark>
+            {
+                new Spark {User = user, Title = "Storm Spark 1", Storm = storm},
+                new Spark {User = user, Title = "Storm Spark 2", Storm = storm},
+                new Spark {User = user, Title = "Storm Spark 3", Storm = storm},
+                new Spark {User = user, Title = "Storm Spark 4", Storm = storm},
+                new Spark {User = user, Title = "Storm Spark 5", Storm = storm},
+                new Spark {User = user, Title = "Storm Spark 6", Storm = storm},
+                new Spark {User = user, Title = "Storm Spark 7", Storm = storm},
+                new Spark {User = user, Title = "Storm Spark 8", Storm = storm},
+                new Spark {User = user, Title = "Storm Spark 9", Storm = storm},
+                new Spark {User = user, Title = "Storm Spark 10", Storm = storm},
+                new Spark {User = user, Title = "Brainstorm 1", Storm = storm2},
+                new Spark {User = user, Title = "Brainstorm 2", Storm = storm2},
+                new Spark {User = user, Title = "Brainstorm 3", Storm = storm2},
+            };
+            sparks.ForEach(s => context.Sparks.Add(s));
             context.SaveChanges();
         }
     }

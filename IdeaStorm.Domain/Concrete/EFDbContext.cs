@@ -13,5 +13,6 @@ namespace IdeaStorm.Domain.Concrete
         public DbSet<User> Users { get; set; }
         public DbSet<Idea> Ideas { get; set; }
         public DbSet<Storm> Storms { get; set; }
+        public DbSet<Spark> Sparks { get; set; }
     }
 }

@@ -14,10 +14,6 @@
             <h4 class="list-group-item-heading">
                 <strong>@Html.ActionLink(i.Title, "Edit", new { id=i.IdeaID })</strong>
                 <span class="pull-right label label-primary">@i.Category</span>
-                @if (i.Storm != null)
-                {
-                    <span class="pull-right label label-success">@i.Storm.Title</span>
-                }
             </h4>
             
             <div class="tagline">

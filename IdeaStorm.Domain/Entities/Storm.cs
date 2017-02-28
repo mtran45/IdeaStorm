@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace IdeaStorm.Domain.Entities
 {
@@ -16,7 +13,7 @@ namespace IdeaStorm.Domain.Entities
         public DateTime UpdatedTime { get; set; }
 
         // Navigation properties
-        public virtual ICollection<Idea> Ideas { get; set; }
+        public virtual ICollection<Spark> Sparks { get; set; }
         public virtual User User { get; set; }
 
         public Storm()

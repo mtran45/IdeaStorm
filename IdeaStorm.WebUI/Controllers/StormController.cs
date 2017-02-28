@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
-using System.Web.WebPages;
 using IdeaStorm.Domain.Abstract;
-using IdeaStorm.Domain.Concrete;
 using IdeaStorm.Domain.Entities;
 
 namespace IdeaStorm.WebUI.Controllers
@@ -14,13 +10,13 @@ namespace IdeaStorm.WebUI.Controllers
     public class StormController : Controller
     {
         private IStormRepository stormRepo;
-        private IIdeaRepository ideaRepo;
+        private ISparkRepository sparkRepo;
         //private EFDbContext db = new EFDbContext();
 
-        public StormController(IStormRepository stormRepo, IIdeaRepository ideaRepo)
+        public StormController(IStormRepository stormRepo, ISparkRepository sparkRepo)
         {
             this.stormRepo = stormRepo;
-            this.ideaRepo = ideaRepo;
+            this.sparkRepo = sparkRepo;
         }
 
         public Storm FindStorm(int id)
@@ -84,19 +80,19 @@ namespace IdeaStorm.WebUI.Controllers
 
         // POST: Storm/Brainstorm
         [HttpPost]
-        public ActionResult Brainstorm(string stormTitle, IList<string> ideaTitles)
+        public ActionResult Brainstorm(string stormTitle, IList<string> sparks)
         {
-            var filteredTitles = ideaTitles.Where(it => !string.IsNullOrWhiteSpace(it)).ToList();
+            var filteredTitles = sparks.Where(it => !string.IsNullOrWhiteSpace(it)).ToList();
             Storm storm = new Storm();
             storm.Title = stormTitle;
             foreach (var title in filteredTitles)
             {
-                Idea idea = new Idea(title);
-                idea.Storm = storm;
-                ideaRepo.SaveIdea(idea);
+                Spark spark = new Spark(title);
+                spark.Storm = storm;
+                sparkRepo.SaveSpark(spark);
             }
             if (filteredTitles.Any()) stormRepo.SaveStorm(storm);
-            TempData["message"] = string.Format($"{filteredTitles.Count} ideas added");
+            TempData["message"] = string.Format($"{filteredTitles.Count} sparks added");
             return RedirectToAction("Index");
         }
     }

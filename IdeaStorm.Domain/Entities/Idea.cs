@@ -13,7 +13,6 @@ namespace IdeaStorm.Domain.Entities
         // Foreign keys
         [HiddenInput(DisplayValue = false)]
         public int UserID { get; set; }
-        public int? StormID { get; set; }
 
         [HiddenInput(DisplayValue = false)]
         [DisplayName("Created Time")]
@@ -33,7 +32,6 @@ namespace IdeaStorm.Domain.Entities
 
         // Navigation Properties
         public virtual User User { get; set; }
-        public virtual Storm Storm { get; set; }
 
         public Idea()
         {

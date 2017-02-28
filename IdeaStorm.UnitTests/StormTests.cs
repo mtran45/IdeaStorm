@@ -15,24 +15,24 @@ namespace IdeaStorm.UnitTests
         [TestMethod]
         public void Can_Bulk_Create_Ideas_With_Brainstorm()
         {
-            // Arrange - create a list of idea names
+            // Arrange - create a list of spark names
             string[] arr = { "I1", "I2", "I3" };
             List<string> ideaTitles = new List<string>(arr);
 
             // Arrange - create the mock repos
-            Mock<IIdeaRepository> ideaMock = new Mock<IIdeaRepository>();
+            Mock<ISparkRepository> sparkMock = new Mock<ISparkRepository>();
             Mock<IStormRepository> stormMock = new Mock<IStormRepository>();
 
             // Arrange - create the controller
-            StormController target = new StormController(stormMock.Object, ideaMock.Object);
+            StormController target = new StormController(stormMock.Object, sparkMock.Object);
 
             // Act
             target.Brainstorm("Storm Title", ideaTitles);
 
             // Assert - ensure that ideas are created with correct titles
-            ideaMock.Verify(m => m.SaveIdea(It.Is<Idea>(i => i.Title == "I1")));
-            ideaMock.Verify(m => m.SaveIdea(It.Is<Idea>(i => i.Title == "I2")));
-            ideaMock.Verify(m => m.SaveIdea(It.Is<Idea>(i => i.Title == "I3")));
+            sparkMock.Verify(m => m.SaveSpark(It.Is<Spark>(i => i.Title == "I1")));
+            sparkMock.Verify(m => m.SaveSpark(It.Is<Spark>(i => i.Title == "I2")));
+            sparkMock.Verify(m => m.SaveSpark(It.Is<Spark>(i => i.Title == "I3")));
 
             // Assert - ensure that storm is created with correct title
             stormMock.Verify(m => m.SaveStorm(It.Is<Storm>(s => s.Title == "Storm Title")));
@@ -45,7 +45,7 @@ namespace IdeaStorm.UnitTests
             Storm storm = new Storm { StormID = 2, Title = "Test Storm" };
 
             // Arrange - create the mock repos
-            Mock<IIdeaRepository> ideaMock = new Mock<IIdeaRepository>();
+            Mock<ISparkRepository> sparkMock = new Mock<ISparkRepository>();
             Mock<IStormRepository> stormMock = new Mock<IStormRepository>();
             stormMock.Setup(m => m.Storms).Returns(new Storm[]
             {
@@ -55,7 +55,7 @@ namespace IdeaStorm.UnitTests
             });
 
             // Arrange - create the controller
-            StormController stormTarget = new StormController(stormMock.Object, ideaMock.Object);
+            StormController stormTarget = new StormController(stormMock.Object, sparkMock.Object);
 
             // Act
             stormTarget.DeleteStorm(storm.StormID);

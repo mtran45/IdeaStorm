@@ -13,14 +13,14 @@
     </div>
 
     <h4>
-        Enter <span id="brainstorm-remaining">10</span> more idea(s)
+        Enter <span id="brainstorm-remaining">10</span> more spark(s)
     </h4>
 
     <div class="panel-body">
         @for (var i = 0; i < 10; i++)
         {
-            @Html.TextBox("ideaTitles", null,
-                          new {@class = "form-control", placeholder = "Idea " + (i + 1)})
+            @Html.TextBox("sparks", null,
+                          new {@class = "form-control", placeholder = "Spark " + (i + 1)})
         }
     </div>
 

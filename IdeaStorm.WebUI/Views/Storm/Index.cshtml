@@ -17,12 +17,11 @@
             </div>
         </div>
         <table class="table">
-            @foreach (var idea in storm.Ideas)
+            @foreach (var spark in storm.Sparks)
                 {
                 <tr>
                     <td>
-
-                        @Html.ActionLink(idea.Title, "Edit", "Idea", new { id = idea.IdeaID }, null)
+                        @spark.Title
                     </td>
                 </tr>
             }

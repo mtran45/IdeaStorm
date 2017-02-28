@@ -39,10 +39,7 @@ namespace IdeaStorm.Domain.Concrete
 
         public void DeleteStorm(Storm storm)
         {
-            foreach (Idea idea in storm.Ideas)
-            {
-                idea.Storm = null;
-            }
+            context.Sparks.RemoveRange(storm.Sparks);
             context.Storms.Remove(storm);
             context.SaveChanges();
         }
