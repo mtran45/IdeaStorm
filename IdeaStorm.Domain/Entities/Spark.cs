@@ -11,8 +11,8 @@ namespace IdeaStorm.Domain.Entities
         public int SparkID { get; set; }
         public string Title { get; set; }
         public int UserID { get; set; }
-        public int StormID { get; set; }
-        public int IdeaID { get; set; }
+        public int? StormID { get; set; }
+        public int? IdeaID { get; set; }
         public DateTime CreatedTime { get; set; }
         public DateTime UpdatedTime { get; set; }
 

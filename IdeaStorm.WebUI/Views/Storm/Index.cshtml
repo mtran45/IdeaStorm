@@ -21,7 +21,17 @@
                 {
                 <tr>
                     <td>
-                        @spark.Title
+                        @if (spark.Idea != null)
+                        {
+                            @Html.ActionLink(spark.Title, "Edit", "Idea", 
+                                new {id = spark.IdeaID}, null);
+                        }
+                        else
+                        {
+                            @spark.Title
+                            @Html.ActionLink("+", "Create", "Idea", null, 
+                           new {@class="btn btn-default pull-right", id="btn-promote"})
+                        }
                     </td>
                 </tr>
             }

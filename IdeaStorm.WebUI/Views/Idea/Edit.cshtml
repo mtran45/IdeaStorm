@@ -23,15 +23,6 @@
                 <label>UserID</label>
                 <div>@Model.UserID</div>
 
-                @if (Model.Storm != null)
-                {
-                    <label>Storm</label>
-                        <div>@(Model.Storm.Title)</div>
-
-                        <label>StormID</label>
-                        <div>@(Model.Storm.StormID)</div>
-                }
-
                 <label>Title</label>
                 @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
