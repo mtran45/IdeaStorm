@@ -24,12 +24,12 @@
                         @if (spark.Idea != null)
                         {
                             @Html.ActionLink(spark.Title, "Edit", "Idea", 
-                                new {id = spark.IdeaID}, null);
+                                new {id = spark.Idea.IdeaID}, null);
                         }
                         else
                         {
                             @spark.Title
-                            @Html.ActionLink("+", "Create", "Idea", null, 
+                            @Html.ActionLink("+", "PromoteSpark", "Idea", new {id=spark.SparkID}, 
                            new {@class="btn btn-default pull-right", id="btn-promote"})
                         }
                     </td>

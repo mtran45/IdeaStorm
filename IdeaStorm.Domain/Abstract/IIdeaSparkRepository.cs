@@ -7,11 +7,14 @@ using IdeaStorm.Domain.Entities;
 
 namespace IdeaStorm.Domain.Abstract
 {
-    public interface IIdeaRepository
+    public interface IIdeaSparkRepository
     {
         IEnumerable<Idea> Ideas { get; }
+        IEnumerable<Spark> Sparks { get; }
 
         void SaveIdea(Idea idea);
         void DeleteIdea(Idea idea);
+
+        void SaveSpark(Spark spark);
     }
 }

@@ -8,9 +8,11 @@ using IdeaStorm.Domain.Entities;
 
 namespace IdeaStorm.Domain.Concrete
 {
-    public class EFIdeaRepository : IIdeaRepository
+    public class EFIdeaSparkRepository : IIdeaSparkRepository
     {
         private EFDbContext context = new EFDbContext();
+
+        #region Ideas
 
         public IEnumerable<Idea> Ideas
         {
@@ -43,5 +45,36 @@ namespace IdeaStorm.Domain.Concrete
             context.Ideas.Remove(idea);
             context.SaveChanges();
         }
+
+        #endregion
+
+        #region Sparks
+
+        public IEnumerable<Spark> Sparks
+        {
+            get { return context.Sparks; }
+        }
+
+        public void SaveSpark(Spark spark)
+        {
+            spark.UpdatedTime = DateTime.Now;
+            if (spark.SparkID == 0)
+            {
+                context.Sparks.Add(spark);
+            }
+            else
+            {
+                Spark dbEntry = context.Sparks.Find(spark.SparkID);
+                if (dbEntry != null)
+                {
+                    dbEntry.Title = spark.Title;
+                    dbEntry.UpdatedTime = spark.UpdatedTime;
+                }
+            }
+            context.SaveChanges();
+        }
+
+        #endregion
     }
 }
+

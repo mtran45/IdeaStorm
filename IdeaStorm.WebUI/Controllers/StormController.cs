@@ -10,13 +10,13 @@ namespace IdeaStorm.WebUI.Controllers
     public class StormController : Controller
     {
         private IStormRepository stormRepo;
-        private ISparkRepository sparkRepo;
+        private IIdeaSparkRepository ideaSparkRepo;
         //private EFDbContext db = new EFDbContext();
 
-        public StormController(IStormRepository stormRepo, ISparkRepository sparkRepo)
+        public StormController(IStormRepository stormRepo, IIdeaSparkRepository ideaSparkRepo)
         {
             this.stormRepo = stormRepo;
-            this.sparkRepo = sparkRepo;
+            this.ideaSparkRepo = ideaSparkRepo;
         }
 
         public Storm FindStorm(int id)
@@ -89,7 +89,7 @@ namespace IdeaStorm.WebUI.Controllers
             {
                 Spark spark = new Spark(title);
                 spark.Storm = storm;
-                sparkRepo.SaveSpark(spark);
+                ideaSparkRepo.SaveSpark(spark);
             }
             if (filteredTitles.Any()) stormRepo.SaveStorm(storm);
             TempData["message"] = string.Format($"{filteredTitles.Count} sparks added");

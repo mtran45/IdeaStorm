@@ -43,28 +43,16 @@ namespace IdeaStorm.WebUI.Infrastructure
             storms.ForEach(s => context.Storms.Add(s));
             context.SaveChanges();
 
-            var promotedIdea = new Idea()
+            var spark = new Spark()
             {
-                UserID = 1,
-                Title = "Storm Idea 1",
-                Description = "Promoted from Storm Spark 1"
+                User = user,
+                Title = "Storm Spark 1",
+                Storm = storm
             };
-
-            var ideas = new List<Idea>
-            {
-                new Idea {UserID=1, Title ="My Great Idea", Description ="The description for the idea here", Category="Misc"},
-                new Idea {UserID=1, Title="IdeaStorm", Description="A webapp for brainstorming ideas", Category="Web App"},
-                new Idea {UserID=2, Title="J-Reader", Description="A web app for reading japanese ebooks", Category="Web App"},
-                new Idea {UserID=3, Title="Jukugo Basket", Description="A virtual replication of the card game", Category="Game"},
-                new Idea {UserID=1, Title="My Great Idea 2", Description="The second revision of my great idea", Category="Misc"},
-                promotedIdea
-            };
-            ideas.ForEach(i => context.Ideas.Add(i));
-            context.SaveChanges();
 
             var sparks = new List<Spark>
             {
-                new Spark {User = user, Title = "Storm Spark 1", Storm = storm, Idea = promotedIdea},
+                spark,
                 new Spark {User = user, Title = "Storm Spark 2", Storm = storm},
                 new Spark {User = user, Title = "Storm Spark 3", Storm = storm},
                 new Spark {User = user, Title = "Storm Spark 4", Storm = storm},
@@ -79,6 +67,26 @@ namespace IdeaStorm.WebUI.Infrastructure
                 new Spark {User = user, Title = "Brainstorm 3", Storm = storm2},
             };
             sparks.ForEach(s => context.Sparks.Add(s));
+            context.SaveChanges();
+
+            var promotedIdea = new Idea()
+            {
+                UserID = 1,
+                Title = "Storm Idea 1",
+                Description = "Promoted from Storm Spark 1",
+                Spark = spark
+            };
+
+            var ideas = new List<Idea>
+            {
+                new Idea {UserID=1, Title ="My Great Idea", Description ="The description for the idea here", Category="Misc"},
+                new Idea {UserID=1, Title="IdeaStorm", Description="A webapp for brainstorming ideas", Category="Web App"},
+                new Idea {UserID=2, Title="J-Reader", Description="A web app for reading japanese ebooks", Category="Web App"},
+                new Idea {UserID=3, Title="Jukugo Basket", Description="A virtual replication of the card game", Category="Game"},
+                new Idea {UserID=1, Title="My Great Idea 2", Description="The second revision of my great idea", Category="Misc"},
+                promotedIdea
+            };
+            ideas.ForEach(i => context.Ideas.Add(i));
             context.SaveChanges();
         }
     }

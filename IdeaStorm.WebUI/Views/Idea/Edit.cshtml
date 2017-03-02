@@ -14,14 +14,8 @@
         <div class="panel-body">
             @Html.HiddenFor(m => m.IdeaID)
             <div class="form-group">
-                <label>IdeaID</label>
-                <div>@Model.IdeaID</div>
-
                 <label>Author</label>
                 <div>@Model.User.Username</div>
-
-                <label>UserID</label>
-                <div>@Model.UserID</div>
 
                 <label>Title</label>
                 @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
@@ -33,6 +27,12 @@
                 
                 <label>Category</label>
                 @Html.EditorFor(model => model.Category, new { htmlAttributes = new { @class = "form-control" } })
+                
+                @if (Model.Spark != null)
+                {
+                    <label>Spark</label>
+                    <div>@Model.Spark.Title</div>
+                }
 
                 <label>Created Time</label>
                 <div>@Model.CreatedTime</div>

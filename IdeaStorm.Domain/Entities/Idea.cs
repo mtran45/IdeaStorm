@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Web.Mvc;
 
 namespace IdeaStorm.Domain.Entities
@@ -32,6 +33,7 @@ namespace IdeaStorm.Domain.Entities
 
         // Navigation Properties
         public virtual User User { get; set; }
+        public virtual Spark Spark { get; set; }
 
         public Idea()
         {

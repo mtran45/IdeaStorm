@@ -20,7 +20,7 @@ namespace IdeaStorm.UnitTests
             List<string> ideaTitles = new List<string>(arr);
 
             // Arrange - create the mock repos
-            Mock<ISparkRepository> sparkMock = new Mock<ISparkRepository>();
+            Mock<IIdeaSparkRepository> sparkMock = new Mock<IIdeaSparkRepository>();
             Mock<IStormRepository> stormMock = new Mock<IStormRepository>();
 
             // Arrange - create the controller
@@ -45,7 +45,7 @@ namespace IdeaStorm.UnitTests
             Storm storm = new Storm { StormID = 2, Title = "Test Storm" };
 
             // Arrange - create the mock repos
-            Mock<ISparkRepository> sparkMock = new Mock<ISparkRepository>();
+            Mock<IIdeaSparkRepository> sparkMock = new Mock<IIdeaSparkRepository>();
             Mock<IStormRepository> stormMock = new Mock<IStormRepository>();
             stormMock.Setup(m => m.Storms).Returns(new Storm[]
             {

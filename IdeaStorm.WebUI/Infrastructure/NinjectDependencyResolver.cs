@@ -33,9 +33,8 @@ namespace IdeaStorm.WebUI.Infrastructure
 
         private void AddBindings()
         {
-            kernel.Bind<IIdeaRepository>().To<EFIdeaRepository>();
+            kernel.Bind<IIdeaSparkRepository>().To<EFIdeaSparkRepository>();
             kernel.Bind<IStormRepository>().To<EFStormRepository>();
-            kernel.Bind<ISparkRepository>().To<EFSparkRepository>();
         }
     }
 }

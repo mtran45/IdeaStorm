@@ -14,5 +14,12 @@ namespace IdeaStorm.Domain.Concrete
         public DbSet<Idea> Ideas { get; set; }
         public DbSet<Storm> Storms { get; set; }
         public DbSet<Spark> Sparks { get; set; }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Spark>()
+                        .HasOptional(s => s.Idea)
+                        .WithOptionalPrincipal(i => i.Spark);
+        }
     }
 }
