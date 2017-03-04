@@ -5,12 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using IdeaStorm.Domain.Entities;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace IdeaStorm.Domain.Concrete
 {
-    public class EFDbContext : DbContext
+    public class EFDbContext : IdentityDbContext<User>
     {
-        public DbSet<User> Users { get; set; }
         public DbSet<Idea> Ideas { get; set; }
         public DbSet<Storm> Storms { get; set; }
         public DbSet<Spark> Sparks { get; set; }
