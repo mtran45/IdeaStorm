@@ -33,7 +33,7 @@ namespace IdeaStorm.WebUI.Infrastructure
             var storm2 = new Storm()
             {
                 UserID = 1,
-                Title = "Brainstorm 19/2"
+                Title = "Brainstorm 19/2/17"
             };
 
             var storms = new List<Storm>

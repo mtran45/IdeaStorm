@@ -49,9 +49,9 @@ textarea {
 
 .storm-card {
     display: inline-table;
-    height: 443px;
+/*    height: 443px;*/
     margin: 5px;
-    width: 20rem;
+    width: 25rem;
 }
 
 .storm-card > .panel-heading > a {
