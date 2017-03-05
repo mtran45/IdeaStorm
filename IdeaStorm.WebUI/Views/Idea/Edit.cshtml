@@ -15,7 +15,7 @@
             @Html.HiddenFor(m => m.IdeaID)
             <div class="form-group">
                 <label>Author</label>
-                <div>@Model.User.Username</div>
+                <div>@Model.User.UserName</div>
 
                 <label>Title</label>
                 @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })

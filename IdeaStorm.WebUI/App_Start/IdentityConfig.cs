@@ -1,32 +1,17 @@
-﻿using IdeaStorm.Domain.Concrete;
+﻿using System.Security.Claims;
+using System.Threading.Tasks;
+using IdeaStorm.Domain.Concrete;
 using IdeaStorm.Domain.Entities;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
+using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Owin;
 
 namespace IdeaStorm.WebUI
 {
-    public class IdentityConfig
-    {
-        public void Configuration(IAppBuilder app)
-        {
-            app.CreatePerOwinContext(() => new EFDbContext());
-            app.CreatePerOwinContext<AppUserManager>(AppUserManager.Create);
-            app.CreatePerOwinContext<RoleManager<AppRole>>((options, context) =>
-                new RoleManager<AppRole>(
-                    new RoleStore<AppRole>(context.Get<EFDbContext>())));
-
-            app.UseCookieAuthentication(new CookieAuthenticationOptions
-            {
-                AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
-                LoginPath = new PathString("/Home/Login"),
-            });
-        }
-    }
-
     public class AppUserManager : UserManager<User>
     {
         public AppUserManager(IUserStore<User> store)
@@ -41,10 +26,36 @@ namespace IdeaStorm.WebUI
             var manager = new AppUserManager(
                 new UserStore<User>(context.Get<EFDbContext>()));
 
-            // optionally configure your manager
-            // ...
+            // Configure validation logic for passwords
+            manager.PasswordValidator = new PasswordValidator
+            {
+                RequiredLength = 4,
+                RequireNonLetterOrDigit = false,
+                RequireDigit = false,
+                RequireLowercase = false,
+                RequireUppercase = false,
+            };
 
             return manager;
+        }
+    }
+
+    // Configure the application sign-in manager which is used in this application.
+    public class ApplicationSignInManager : SignInManager<User, string>
+    {
+        public ApplicationSignInManager(AppUserManager userManager, IAuthenticationManager authenticationManager)
+            : base(userManager, authenticationManager)
+        {
+        }
+
+        public override Task<ClaimsIdentity> CreateUserIdentityAsync(User user)
+        {
+            return user.GenerateUserIdentityAsync((AppUserManager)UserManager);
+        }
+
+        public static ApplicationSignInManager Create(IdentityFactoryOptions<ApplicationSignInManager> options, IOwinContext context)
+        {
+            return new ApplicationSignInManager(context.GetUserManager<AppUserManager>(), context.Authentication);
         }
     }
 }

@@ -17,7 +17,7 @@
             </h4>
             
             <div class="tagline">
-                <strong>@i.User.Username</strong> 
+                <strong>@i.User.UserName</strong> 
                 <time class="timeago" datetime="@i.CreatedTime.ToString("o")">@i.CreatedTime</time>
                 @Html.ActionLink("Delete", "Delete", new { id=i.IdeaID })
             </div>

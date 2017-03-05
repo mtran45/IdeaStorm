@@ -12,7 +12,7 @@
         <div class="panel-heading">
             @Html.ActionLink(storm.Title, "Details", new { id = storm.StormID })
             <div class="subtitle text-muted">
-                <strong>@storm.User.Username</strong>
+                <strong>@storm.User.UserName</strong>
                 <span title="@storm.CreatedTime">@storm.CreatedTime.ToShortDateString()</span>
             </div>
         </div>

@@ -11,6 +11,14 @@ namespace IdeaStorm.UnitTests
     [TestClass]
     public class IdeaTests
     {
+        private User user;
+
+        [TestInitialize()]
+        public void Initialize()
+        {
+            user = new User();
+        }
+
         [TestMethod]
         public void Can_Edit_Idea()
         {
@@ -18,9 +26,9 @@ namespace IdeaStorm.UnitTests
             Mock<IIdeaSparkRepository> mock = new Mock<IIdeaSparkRepository>();
             mock.Setup(m => m.Ideas).Returns(new Idea[]
             {
-                new Idea() {IdeaID = 1, Title = "I1" },
-                new Idea() {IdeaID = 2, Title = "I2" },
-                new Idea() {IdeaID = 3, Title = "I3" },
+                new Idea(user) {IdeaID = 1, Title = "I1" },
+                new Idea(user) {IdeaID = 2, Title = "I2" },
+                new Idea(user) {IdeaID = 3, Title = "I3" },
             });
 
             // Arrange - create the controller
@@ -43,9 +51,9 @@ namespace IdeaStorm.UnitTests
             Mock<IIdeaSparkRepository> mock = new Mock<IIdeaSparkRepository>();
             mock.Setup(m => m.Ideas).Returns(new Idea[]
             {
-                new Idea() {IdeaID = 1, Title = "I1" },
-                new Idea() {IdeaID = 2, Title = "I2" },
-                new Idea() {IdeaID = 3, Title = "I3" },
+                new Idea(user) {IdeaID = 1, Title = "I1" },
+                new Idea(user) {IdeaID = 2, Title = "I2" },
+                new Idea(user) {IdeaID = 3, Title = "I3" },
             });
 
             // Arrange - create the controller
@@ -66,7 +74,7 @@ namespace IdeaStorm.UnitTests
             // Arrange - create the controller
             IdeaController target = new IdeaController(mock.Object);
             // Arrange - create an idea
-            Idea idea = new Idea() {Title = "Test"};
+            Idea idea = new Idea(user) {Title = "Test"};
 
             // Act - try to save the idea
             ActionResult result = target.Edit(idea);
@@ -85,7 +93,7 @@ namespace IdeaStorm.UnitTests
             // Arrange - create the controller
             IdeaController target = new IdeaController(mock.Object);
             // Arrange - create an idea
-            Idea idea = new Idea() { Title = "Test" };
+            Idea idea = new Idea(user) { Title = "Test" };
             // Arrange - add an error to the model state
             target.ModelState.AddModelError("error", "error");
 
@@ -102,7 +110,7 @@ namespace IdeaStorm.UnitTests
         public void Can_Create_Idea()
         {
             // Arrange - create an Idea
-            Idea idea = new Idea() { IdeaID = 2, Title = "Test" };
+            Idea idea = new Idea(user) { IdeaID = 2, Title = "Test" };
 
             // Arrange - create the mock repo
             Mock<IIdeaSparkRepository> mock = new Mock<IIdeaSparkRepository>();
@@ -121,15 +129,15 @@ namespace IdeaStorm.UnitTests
         public void Can_Delete_Idea()
         {
             // Arrange - create an Idea
-            Idea idea = new Idea() {IdeaID = 2, Title = "Test"};
+            Idea idea = new Idea(user) {IdeaID = 2, Title = "Test"};
 
             // Arrange - create the mock repo
             Mock<IIdeaSparkRepository> mock = new Mock<IIdeaSparkRepository>();
             mock.Setup(m => m.Ideas).Returns(new Idea[]
             {
-                new Idea() {IdeaID = 1, Title = "I1" },
+                new Idea(user) {IdeaID = 1, Title = "I1" },
                 idea,
-                new Idea() {IdeaID = 3, Title = "I3" },
+                new Idea(user) {IdeaID = 3, Title = "I3" },
             });
 
             // Arrange - create the controller

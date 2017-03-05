@@ -11,10 +11,6 @@ namespace IdeaStorm.Domain.Entities
         [HiddenInput(DisplayValue = false)]
         public int IdeaID { get; set; }
 
-        // Foreign keys
-        [HiddenInput(DisplayValue = false)]
-        public int UserID { get; set; }
-
         [HiddenInput(DisplayValue = false)]
         [DisplayName("Created Time")]
         public DateTime CreatedTime { get; set; }
@@ -39,10 +35,14 @@ namespace IdeaStorm.Domain.Entities
         {
             CreatedTime = DateTime.Now;
             UpdatedTime = DateTime.Now;
-            UserID = 1;
         }
 
-        public Idea(string title) : this()
+        public Idea(User user) : this()
+        {
+            User = user;
+        }
+
+        public Idea(User user, string title) : this(user)
         {
             Title = title;
         }

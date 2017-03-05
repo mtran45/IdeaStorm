@@ -4,6 +4,7 @@ using System.Net;
 using System.Web.Mvc;
 using IdeaStorm.Domain.Abstract;
 using IdeaStorm.Domain.Entities;
+using IdeaStorm.WebUI.Helpers;
 
 namespace IdeaStorm.WebUI.Controllers
 {
@@ -87,7 +88,7 @@ namespace IdeaStorm.WebUI.Controllers
             storm.Title = stormTitle;
             foreach (var title in filteredTitles)
             {
-                Spark spark = new Spark(title);
+                Spark spark = new Spark(AppHelper.GetCurrentUser());
                 spark.Storm = storm;
                 ideaSparkRepo.SaveSpark(spark);
             }

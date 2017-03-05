@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using IdeaStorm.Domain.Abstract;
 using IdeaStorm.Domain.Entities;
+using IdeaStorm.WebUI.Helpers;
 
 namespace IdeaStorm.WebUI.Controllers
 {
@@ -57,7 +58,7 @@ namespace IdeaStorm.WebUI.Controllers
         // GET: Idea/Create
         public ViewResult Create()
         {
-            return View(new Idea());
+            return View(new Idea(AppHelper.GetCurrentUser()));
         }
 
         public ActionResult PromoteSpark(int id)
@@ -67,11 +68,10 @@ namespace IdeaStorm.WebUI.Controllers
             {
                 return HttpNotFound();
             }
-            var idea = new Idea
+            var idea = new Idea(spark.User)
             {
                 Spark = spark,
-                Title = spark.Title,
-                User = spark.User
+                Title = spark.Title
             };
             return View("Create", idea);
         }

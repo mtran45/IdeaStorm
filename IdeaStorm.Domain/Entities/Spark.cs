@@ -10,7 +10,6 @@ namespace IdeaStorm.Domain.Entities
     {
         public int SparkID { get; set; }
         public string Title { get; set; }
-        public int UserID { get; set; }
         public int? StormID { get; set; }
         public int? IdeaID { get; set; }
         public DateTime CreatedTime { get; set; }
@@ -25,10 +24,14 @@ namespace IdeaStorm.Domain.Entities
         {
             CreatedTime = DateTime.Now;
             UpdatedTime = DateTime.Now;
-            UserID = 1;
         }
 
-        public Spark(string title) : this()
+        public Spark(User user) : this()
+        {
+            User = user;
+        }
+
+        public Spark(User user, string title) : this(user)
         {
             Title = title;
         }
