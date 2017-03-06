@@ -7,15 +7,15 @@ using Microsoft.AspNet.Identity;
 
 namespace IdeaStorm.WebUI.Infrastructure
 {
-    public class EFDbInitializer : System.Data.Entity.DropCreateDatabaseAlways<EFDbContext>
+    public class EFDbInitializer : System.Data.Entity.DropCreateDatabaseIfModelChanges<EFDbContext>
     {
         protected override void Seed(EFDbContext context)
         {
             var hasher = new PasswordHasher();
             var user = new User
             {
-                UserName = "default_user",
-                Email = "default_user@email.com",
+                UserName = "user",
+                Email = "user@email.com",
                 PasswordHash = hasher.HashPassword("pass"),
                 SecurityStamp = Guid.NewGuid().ToString(),
                 CreatedTime = DateTime.Parse("2005-09-01")

@@ -31,7 +31,7 @@ namespace IdeaStorm.Domain.Entities
             User = user;
         }
 
-        public Spark(User user, string title) : this(user)
+        public Spark(string title) : this()
         {
             Title = title;
         }

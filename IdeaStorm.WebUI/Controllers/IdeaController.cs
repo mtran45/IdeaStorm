@@ -1,35 +1,56 @@
 ﻿using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using IdeaStorm.Domain.Abstract;
 using IdeaStorm.Domain.Entities;
 using IdeaStorm.WebUI.Helpers;
+using IdeaStorm.WebUI.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace IdeaStorm.WebUI.Controllers
 {
     public class IdeaController : Controller
     {
-        private IIdeaSparkRepository ideaSparkRepo;
+        private IIdeaRepository ideaRepo;
+        private ISparkRepository sparkRepo;
+        private IUserRepository userRepo;
 
-        public IdeaController(IIdeaSparkRepository ideaSparkRepo)
+        public IdeaController(IIdeaRepository ideaRepo, ISparkRepository sparkRepo, IUserRepository userRepo)
         {
-            this.ideaSparkRepo = ideaSparkRepo;
+            this.ideaRepo = ideaRepo;
+            this.sparkRepo = sparkRepo;
+            this.userRepo = userRepo;
         }
 
         public Idea FindIdea(int id)
         {
-            return ideaSparkRepo.Ideas.FirstOrDefault(i => i.IdeaID == id);
+            return ideaRepo.Ideas.FirstOrDefault(i => i.IdeaID == id);
+        }
+
+        private AppUserManager _userManager;
+        public AppUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<AppUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
         }
 
         // GET: /
         public ViewResult List()
         {
-            return View(ideaSparkRepo.Ideas.OrderByDescending(i => i.CreatedTime));
+            return View(ideaRepo.Ideas.OrderByDescending(i => i.CreatedTime));
         }
 
         // GET: Idea/Edit/5
         public ActionResult Edit(int id)
         {
-            //Idea idea = ideaSparkRepo.FindIdea(id);
+            //Idea idea = ideaRepo.FindIdea(id);
             Idea idea = FindIdea(id);
             if (idea == null)
             {
@@ -44,7 +65,7 @@ namespace IdeaStorm.WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                ideaSparkRepo.SaveIdea(idea);
+                ideaRepo.SaveIdea(idea);
                 TempData["message"] = string.Format($"\"{idea.Title}\" has been updated");
                 return RedirectToAction("List");
             }
@@ -58,38 +79,46 @@ namespace IdeaStorm.WebUI.Controllers
         // GET: Idea/Create
         public ViewResult Create()
         {
-            return View(new Idea(AppHelper.GetCurrentUser()));
+            return View();
         }
 
         public ActionResult PromoteSpark(int id)
         {
-            Spark spark = ideaSparkRepo.Sparks.FirstOrDefault(s => s.SparkID == id);
+            Spark spark = sparkRepo.Sparks.FirstOrDefault(s => s.SparkID == id);
             if (spark == null)
             {
                 return HttpNotFound();
             }
-            var idea = new Idea(spark.User)
+            var vm = new CreateIdeaViewModel
             {
                 Spark = spark,
                 Title = spark.Title
             };
-            return View("Create", idea);
+            return View("Create", vm);
         }
 
         // POST: Idea/Create
         [HttpPost]
-        public ActionResult Create([Bind(Include = "Title,Description,Category,Spark")] Idea idea,
-            int? SparkID)
+        public ActionResult Create(CreateIdeaViewModel model)
         {
-            Spark spark = ideaSparkRepo.Sparks.FirstOrDefault(s => s.SparkID == SparkID);
-            idea.Spark = spark;
             if (ModelState.IsValid)
             {
-                ideaSparkRepo.SaveIdea(idea);
+                var currUser = UserManager.FindById(User.Identity.GetUserId());
+                var idea = new Idea
+                {
+                    Title = model.Title,
+                    Description = model.Description,
+                    Category = model.Category,
+                    User = userRepo.GetUserByID(currUser.Id),
+                    Spark = model.Spark
+                };
+                //Spark spark = ideaRepo.Sparks.FirstOrDefault(s => s.SparkID == SparkID);
+                ideaRepo.SaveIdea(idea);
                 TempData["message"] = string.Format($"\"{idea.Title}\" has been added");
                 return RedirectToAction("List");
             }
-            return View(idea);
+
+            return View(model);
         }
 
         // GET: Idea/Delete/5
@@ -108,7 +137,7 @@ namespace IdeaStorm.WebUI.Controllers
         public ActionResult DeleteIdea(int id)
         {
             Idea idea = FindIdea(id);
-            ideaSparkRepo.DeleteIdea(idea);
+            ideaRepo.DeleteIdea(idea);
             TempData["message"] = string.Format($"\"{idea.Title}\" has been deleted");
             return RedirectToAction("List");
         }

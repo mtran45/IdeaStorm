@@ -1,5 +1,4 @@
-﻿@model IdeaStorm.Domain.Entities.Idea
-
+﻿@model IdeaStorm.WebUI.Models.CreateIdeaViewModel
 @{
     ViewBag.Title = "Add Idea";
 }
@@ -12,10 +11,10 @@
     @using (Html.BeginForm("Create", "Idea"))
     {
         <div class="panel-body">
-            @Html.HiddenFor(m => m.IdeaID)
-            @if (Model.Spark != null)
+            @if (Model?.Spark != null)
             {
-                @Html.Hidden("SparkID", Model.Spark.SparkID)
+@*                @Html.Hidden("SparkID", Model.Spark.SparkID)*@
+                @Html.HiddenFor(m => m.Spark)
             }
             <div class="form-group">
                 <label>Title</label>

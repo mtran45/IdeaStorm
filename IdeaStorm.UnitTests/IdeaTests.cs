@@ -3,6 +3,7 @@ using System.Web.Mvc;
 using IdeaStorm.Domain.Abstract;
 using IdeaStorm.Domain.Entities;
 using IdeaStorm.WebUI.Controllers;
+using IdeaStorm.WebUI.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
@@ -23,7 +24,7 @@ namespace IdeaStorm.UnitTests
         public void Can_Edit_Idea()
         {
             // Arrange - create the mock repo
-            Mock<IIdeaSparkRepository> mock = new Mock<IIdeaSparkRepository>();
+            Mock<IIdeaRepository> mock = new Mock<IIdeaRepository>();
             mock.Setup(m => m.Ideas).Returns(new Idea[]
             {
                 new Idea(user) {IdeaID = 1, Title = "I1" },
@@ -32,7 +33,7 @@ namespace IdeaStorm.UnitTests
             });
 
             // Arrange - create the controller
-            IdeaController target = new IdeaController(mock.Object);
+            IdeaController target = new IdeaController(mock.Object, null);
 
             // Act
             Idea i1 = ((ViewResult)target.Edit(1)).ViewData.Model as Idea;
@@ -48,7 +49,7 @@ namespace IdeaStorm.UnitTests
         [TestMethod]
         public void Cannot_Edit_Nonexistent_Idea()
         {
-            Mock<IIdeaSparkRepository> mock = new Mock<IIdeaSparkRepository>();
+            Mock<IIdeaRepository> mock = new Mock<IIdeaRepository>();
             mock.Setup(m => m.Ideas).Returns(new Idea[]
             {
                 new Idea(user) {IdeaID = 1, Title = "I1" },
@@ -57,7 +58,7 @@ namespace IdeaStorm.UnitTests
             });
 
             // Arrange - create the controller
-            IdeaController target = new IdeaController(mock.Object);
+            IdeaController target = new IdeaController(mock.Object, null);
 
             // Act
             ActionResult result = target.Edit(4);
@@ -70,9 +71,9 @@ namespace IdeaStorm.UnitTests
         public void Can_Save_Valid_Changes()
         {
             // Arrange - create mock repo
-            Mock<IIdeaSparkRepository> mock = new Mock<IIdeaSparkRepository>();
+            Mock<IIdeaRepository> mock = new Mock<IIdeaRepository>();
             // Arrange - create the controller
-            IdeaController target = new IdeaController(mock.Object);
+            IdeaController target = new IdeaController(mock.Object, null);
             // Arrange - create an idea
             Idea idea = new Idea(user) {Title = "Test"};
 
@@ -89,9 +90,9 @@ namespace IdeaStorm.UnitTests
         public void Cannot_Save_Invalid_Changes()
         {
             // Arrange - create mock repo
-            Mock<IIdeaSparkRepository> mock = new Mock<IIdeaSparkRepository>();
+            Mock<IIdeaRepository> mock = new Mock<IIdeaRepository>();
             // Arrange - create the controller
-            IdeaController target = new IdeaController(mock.Object);
+            IdeaController target = new IdeaController(mock.Object, null);
             // Arrange - create an idea
             Idea idea = new Idea(user) { Title = "Test" };
             // Arrange - add an error to the model state
@@ -113,16 +114,18 @@ namespace IdeaStorm.UnitTests
             Idea idea = new Idea(user) { IdeaID = 2, Title = "Test" };
 
             // Arrange - create the mock repo
-            Mock<IIdeaSparkRepository> mock = new Mock<IIdeaSparkRepository>();
+            Mock<IIdeaRepository> mock = new Mock<IIdeaRepository>();
 
             // Arrange - create the controller
-            IdeaController target = new IdeaController(mock.Object);
+            IdeaController target = new IdeaController(mock.Object, null);
+
+            var vm = new CreateIdeaViewModel() {Title = idea.Title};
 
             // Act
-            target.Create(idea, null);
+            target.Create(vm);
 
             // Assert - ensure that the repository create method was called with correct Idea
-            mock.Verify(m => m.SaveIdea(idea));
+            mock.Verify(m => m.SaveIdea(It.Is<Idea>(i => i.Title == idea.Title)));
         }
 
         [TestMethod]
@@ -132,7 +135,7 @@ namespace IdeaStorm.UnitTests
             Idea idea = new Idea(user) {IdeaID = 2, Title = "Test"};
 
             // Arrange - create the mock repo
-            Mock<IIdeaSparkRepository> mock = new Mock<IIdeaSparkRepository>();
+            Mock<IIdeaRepository> mock = new Mock<IIdeaRepository>();
             mock.Setup(m => m.Ideas).Returns(new Idea[]
             {
                 new Idea(user) {IdeaID = 1, Title = "I1" },
@@ -141,7 +144,7 @@ namespace IdeaStorm.UnitTests
             });
 
             // Arrange - create the controller
-            IdeaController target = new IdeaController(mock.Object);
+            IdeaController target = new IdeaController(mock.Object, null);
 
             // Act
             target.DeleteIdea(idea.IdeaID);

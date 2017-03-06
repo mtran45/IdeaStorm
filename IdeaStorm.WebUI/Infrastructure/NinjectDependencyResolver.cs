@@ -8,6 +8,7 @@ using IdeaStorm.Domain.Concrete;
 using IdeaStorm.Domain.Entities;
 using Moq;
 using Ninject;
+using Ninject.Web.Common;
 
 namespace IdeaStorm.WebUI.Infrastructure
 {
@@ -33,8 +34,11 @@ namespace IdeaStorm.WebUI.Infrastructure
 
         private void AddBindings()
         {
-            kernel.Bind<IIdeaSparkRepository>().To<EFIdeaSparkRepository>();
-            kernel.Bind<IStormRepository>().To<EFStormRepository>();
+            kernel.Bind<EFDbContext>().ToSelf().InRequestScope();
+            kernel.Bind<IIdeaRepository>().To<EFIdeaRepository>().InRequestScope();
+            kernel.Bind<IStormRepository>().To<EFStormRepository>().InRequestScope();
+            kernel.Bind<ISparkRepository>().To<EFSparkRepository>().InRequestScope();
+            kernel.Bind<IUserRepository>().To<EFUserRepository>().InRequestScope();
         }
     }
 }

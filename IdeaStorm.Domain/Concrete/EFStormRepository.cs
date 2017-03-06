@@ -10,7 +10,12 @@ namespace IdeaStorm.Domain.Concrete
 {
     public class EFStormRepository : IStormRepository
     {
-        private EFDbContext context = new EFDbContext();
+        private EFDbContext context;
+
+        public EFStormRepository(EFDbContext context)
+        {
+            this.context = context;
+        }
 
         public IEnumerable<Storm> Storms
         {

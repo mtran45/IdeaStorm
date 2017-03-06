@@ -28,6 +28,7 @@ namespace IdeaStorm.Domain.Entities
         public string Category { get; set; }
 
         // Navigation Properties
+        [Required]
         public virtual User User { get; set; }
         public virtual Spark Spark { get; set; }
 

@@ -20,11 +20,11 @@ namespace IdeaStorm.UnitTests
             List<string> ideaTitles = new List<string>(arr);
 
             // Arrange - create the mock repos
-            Mock<IIdeaSparkRepository> sparkMock = new Mock<IIdeaSparkRepository>();
+            Mock<ISparkRepository> sparkMock = new Mock<ISparkRepository>();
             Mock<IStormRepository> stormMock = new Mock<IStormRepository>();
 
             // Arrange - create the controller
-            StormController target = new StormController(stormMock.Object, sparkMock.Object);
+            StormController target = new StormController(stormMock.Object, sparkMock.Object, null);
 
             // Act
             target.Brainstorm("Storm Title", ideaTitles);
@@ -45,8 +45,9 @@ namespace IdeaStorm.UnitTests
             Storm storm = new Storm { StormID = 2, Title = "Test Storm" };
 
             // Arrange - create the mock repos
-            Mock<IIdeaSparkRepository> sparkMock = new Mock<IIdeaSparkRepository>();
+            Mock<ISparkRepository> sparkMock = new Mock<ISparkRepository>();
             Mock<IStormRepository> stormMock = new Mock<IStormRepository>();
+            Mock<IIdeaRepository> ideaMock = new Mock<IIdeaRepository>();
             stormMock.Setup(m => m.Storms).Returns(new Storm[]
             {
                 new Storm { StormID = 1, Title = "S1" },
@@ -55,7 +56,7 @@ namespace IdeaStorm.UnitTests
             });
 
             // Arrange - create the controller
-            StormController stormTarget = new StormController(stormMock.Object, sparkMock.Object);
+            StormController stormTarget = new StormController(stormMock.Object, sparkMock.Object, ideaMock.Object);
 
             // Act
             stormTarget.DeleteStorm(storm.StormID);

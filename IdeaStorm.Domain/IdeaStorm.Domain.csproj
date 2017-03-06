@@ -93,11 +93,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abstract\IIdeaSparkRepository.cs" />
+    <Compile Include="Abstract\IIdeaRepository.cs" />
+    <Compile Include="Abstract\ISparkRepository.cs" />
     <Compile Include="Abstract\IStormRepository.cs" />
+    <Compile Include="Abstract\IUserRepository.cs" />
     <Compile Include="Concrete\EFDbContext.cs" />
-    <Compile Include="Concrete\EFIdeaSparkRepository.cs" />
+    <Compile Include="Concrete\EFIdeaRepository.cs" />
+    <Compile Include="Concrete\EFSparkRepository.cs" />
     <Compile Include="Concrete\EFStormRepository.cs" />
+    <Compile Include="Concrete\EFUserRepository.cs" />
     <Compile Include="Entities\AppRole.cs" />
     <Compile Include="Entities\Idea.cs" />
     <Compile Include="Entities\Spark.cs" />

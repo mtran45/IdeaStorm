@@ -11,13 +11,14 @@ namespace IdeaStorm.WebUI.Controllers
     public class StormController : Controller
     {
         private IStormRepository stormRepo;
-        private IIdeaSparkRepository ideaSparkRepo;
-        //private EFDbContext db = new EFDbContext();
+        private ISparkRepository sparkRepo;
+        private IIdeaRepository ideaRepo;
 
-        public StormController(IStormRepository stormRepo, IIdeaSparkRepository ideaSparkRepo)
+        public StormController(IStormRepository stormRepo, ISparkRepository sparkRepo, IIdeaRepository ideaRepo)
         {
             this.stormRepo = stormRepo;
-            this.ideaSparkRepo = ideaSparkRepo;
+            this.sparkRepo = sparkRepo;
+            this.ideaRepo = ideaRepo;
         }
 
         public Storm FindStorm(int id)
@@ -88,9 +89,9 @@ namespace IdeaStorm.WebUI.Controllers
             storm.Title = stormTitle;
             foreach (var title in filteredTitles)
             {
-                Spark spark = new Spark(AppHelper.GetCurrentUser());
+                Spark spark = new Spark(title);
                 spark.Storm = storm;
-                ideaSparkRepo.SaveSpark(spark);
+                sparkRepo.SaveSpark(spark);
             }
             if (filteredTitles.Any()) stormRepo.SaveStorm(storm);
             TempData["message"] = string.Format($"{filteredTitles.Count} sparks added");

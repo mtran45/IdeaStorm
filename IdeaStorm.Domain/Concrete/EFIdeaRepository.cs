@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using IdeaStorm.Domain.Abstract;
 using IdeaStorm.Domain.Entities;
 
 namespace IdeaStorm.Domain.Concrete
 {
-    public class EFIdeaSparkRepository : IIdeaSparkRepository
+    public class EFIdeaRepository : IIdeaRepository
     {
-        private EFDbContext context = new EFDbContext();
+        private EFDbContext context;
 
-        #region Ideas
+        public EFIdeaRepository(EFDbContext context)
+        {
+            this.context = context;
+        }
 
         public IEnumerable<Idea> Ideas
         {
@@ -45,36 +45,6 @@ namespace IdeaStorm.Domain.Concrete
             context.Ideas.Remove(idea);
             context.SaveChanges();
         }
-
-        #endregion
-
-        #region Sparks
-
-        public IEnumerable<Spark> Sparks
-        {
-            get { return context.Sparks; }
-        }
-
-        public void SaveSpark(Spark spark)
-        {
-            spark.UpdatedTime = DateTime.Now;
-            if (spark.SparkID == 0)
-            {
-                context.Sparks.Add(spark);
-            }
-            else
-            {
-                Spark dbEntry = context.Sparks.Find(spark.SparkID);
-                if (dbEntry != null)
-                {
-                    dbEntry.Title = spark.Title;
-                    dbEntry.UpdatedTime = spark.UpdatedTime;
-                }
-            }
-            context.SaveChanges();
-        }
-
-        #endregion
     }
 }
 
