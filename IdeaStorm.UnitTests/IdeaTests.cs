@@ -33,7 +33,7 @@ namespace IdeaStorm.UnitTests
             });
 
             // Arrange - create the controller
-            IdeaController target = new IdeaController(mock.Object, null);
+            IdeaController target = new IdeaController(mock.Object, null, null);
 
             // Act
             Idea i1 = ((ViewResult)target.Edit(1)).ViewData.Model as Idea;
@@ -58,7 +58,7 @@ namespace IdeaStorm.UnitTests
             });
 
             // Arrange - create the controller
-            IdeaController target = new IdeaController(mock.Object, null);
+            IdeaController target = new IdeaController(mock.Object, null, null);
 
             // Act
             ActionResult result = target.Edit(4);
@@ -73,7 +73,7 @@ namespace IdeaStorm.UnitTests
             // Arrange - create mock repo
             Mock<IIdeaRepository> mock = new Mock<IIdeaRepository>();
             // Arrange - create the controller
-            IdeaController target = new IdeaController(mock.Object, null);
+            IdeaController target = new IdeaController(mock.Object, null, null);
             // Arrange - create an idea
             Idea idea = new Idea(user) {Title = "Test"};
 
@@ -92,7 +92,7 @@ namespace IdeaStorm.UnitTests
             // Arrange - create mock repo
             Mock<IIdeaRepository> mock = new Mock<IIdeaRepository>();
             // Arrange - create the controller
-            IdeaController target = new IdeaController(mock.Object, null);
+            IdeaController target = new IdeaController(mock.Object, null, null);
             // Arrange - create an idea
             Idea idea = new Idea(user) { Title = "Test" };
             // Arrange - add an error to the model state
@@ -117,7 +117,7 @@ namespace IdeaStorm.UnitTests
             Mock<IIdeaRepository> mock = new Mock<IIdeaRepository>();
 
             // Arrange - create the controller
-            IdeaController target = new IdeaController(mock.Object, null);
+            IdeaController target = new IdeaController(mock.Object, null, null);
 
             var vm = new CreateIdeaViewModel() {Title = idea.Title};
 
@@ -144,7 +144,7 @@ namespace IdeaStorm.UnitTests
             });
 
             // Arrange - create the controller
-            IdeaController target = new IdeaController(mock.Object, null);
+            IdeaController target = new IdeaController(mock.Object, null, null);
 
             // Act
             target.DeleteIdea(idea.IdeaID);

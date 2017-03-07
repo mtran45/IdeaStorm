@@ -12,7 +12,7 @@ namespace IdeaStorm.WebUI.Models
         public string Description { get; set; }
         public string Category { get; set; }
 
-        public Spark Spark { get; set; }
+        public int? SparkID { get; set; }
     }
 
 }

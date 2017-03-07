@@ -91,7 +91,7 @@ namespace IdeaStorm.WebUI.Controllers
             }
             var vm = new CreateIdeaViewModel
             {
-                Spark = spark,
+                SparkID = id,
                 Title = spark.Title
             };
             return View("Create", vm);
@@ -110,8 +110,8 @@ namespace IdeaStorm.WebUI.Controllers
                     Description = model.Description,
                     Category = model.Category,
                     User = userRepo.GetUserByID(currUser.Id),
-                    Spark = model.Spark
-                };
+                    Spark = sparkRepo.Sparks.FirstOrDefault(s => s.SparkID == model.SparkID)
+            };
                 //Spark spark = ideaRepo.Sparks.FirstOrDefault(s => s.SparkID == SparkID);
                 ideaRepo.SaveIdea(idea);
                 TempData["message"] = string.Format($"\"{idea.Title}\" has been added");

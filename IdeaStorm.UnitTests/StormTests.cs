@@ -13,7 +13,7 @@ namespace IdeaStorm.UnitTests
     public class StormTests
     {
         [TestMethod]
-        public void Can_Bulk_Create_Ideas_With_Brainstorm()
+        public void Can_Bulk_Create_Sparks_With_Brainstorm()
         {
             // Arrange - create a list of spark names
             string[] arr = { "I1", "I2", "I3" };

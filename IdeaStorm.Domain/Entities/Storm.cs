@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace IdeaStorm.Domain.Entities
 {
     public class Storm
     {
         public int StormID { get; set; }
-        public int UserID { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public DateTime CreatedTime { get; set; }
@@ -14,13 +14,13 @@ namespace IdeaStorm.Domain.Entities
 
         // Navigation properties
         public virtual ICollection<Spark> Sparks { get; set; }
+        [Required]
         public virtual User User { get; set; }
 
         public Storm()
         {
             CreatedTime = DateTime.Now;
             UpdatedTime = DateTime.Now;
-            UserID = 1;
         }
     }
 }

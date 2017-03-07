@@ -11,11 +11,7 @@
     @using (Html.BeginForm("Create", "Idea"))
     {
         <div class="panel-body">
-            @if (Model?.Spark != null)
-            {
-@*                @Html.Hidden("SparkID", Model.Spark.SparkID)*@
-                @Html.HiddenFor(m => m.Spark)
-            }
+            @Html.HiddenFor(m => m.SparkID)
             <div class="form-group">
                 <label>Title</label>
                 @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })

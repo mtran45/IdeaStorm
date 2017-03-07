@@ -13,8 +13,9 @@ namespace IdeaStorm.WebUI.Controllers
         private IStormRepository stormRepo;
         private ISparkRepository sparkRepo;
         private IIdeaRepository ideaRepo;
+        private IUserRepository userRepo;
 
-        public StormController(IStormRepository stormRepo, ISparkRepository sparkRepo, IIdeaRepository ideaRepo)
+        public StormController(IStormRepository stormRepo, ISparkRepository sparkRepo, IIdeaRepository ideaRepo, IUserRepository userRepo)
         {
             this.stormRepo = stormRepo;
             this.sparkRepo = sparkRepo;
