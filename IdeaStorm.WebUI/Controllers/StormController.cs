@@ -1,10 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Web;
 using System.Web.Mvc;
 using IdeaStorm.Domain.Abstract;
 using IdeaStorm.Domain.Entities;
 using IdeaStorm.WebUI.Helpers;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace IdeaStorm.WebUI.Controllers
 {
@@ -12,14 +16,17 @@ namespace IdeaStorm.WebUI.Controllers
     {
         private IStormRepository stormRepo;
         private ISparkRepository sparkRepo;
-        private IIdeaRepository ideaRepo;
         private IUserRepository userRepo;
 
-        public StormController(IStormRepository stormRepo, ISparkRepository sparkRepo, IIdeaRepository ideaRepo, IUserRepository userRepo)
+        public Func<string> GetUserId; // For testing
+
+        public StormController(IStormRepository stormRepo, ISparkRepository sparkRepo, IUserRepository userRepo)
         {
             this.stormRepo = stormRepo;
             this.sparkRepo = sparkRepo;
-            this.ideaRepo = ideaRepo;
+            this.userRepo = userRepo;
+
+            GetUserId = () => User.Identity.GetUserId();
         }
 
         public Storm FindStorm(int id)
@@ -86,8 +93,12 @@ namespace IdeaStorm.WebUI.Controllers
         public ActionResult Brainstorm(string stormTitle, IList<string> sparks)
         {
             var filteredTitles = sparks.Where(it => !string.IsNullOrWhiteSpace(it)).ToList();
-            Storm storm = new Storm();
-            storm.Title = stormTitle;
+            Storm storm = new Storm
+            {
+                User = userRepo.GetUserByID(GetUserId()),
+                Title = stormTitle
+
+            };
             foreach (var title in filteredTitles)
             {
                 Spark spark = new Spark(title);

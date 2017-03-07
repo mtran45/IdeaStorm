@@ -114,18 +114,25 @@ namespace IdeaStorm.UnitTests
             Idea idea = new Idea(user) { IdeaID = 2, Title = "Test" };
 
             // Arrange - create the mock repo
-            Mock<IIdeaRepository> mock = new Mock<IIdeaRepository>();
+            Mock<IIdeaRepository> ideaMock = new Mock<IIdeaRepository>();
+            Mock<ISparkRepository> sparkMock = new Mock<ISparkRepository>();
+            Mock<IUserRepository> userMock = new Mock<IUserRepository>();
+
 
             // Arrange - create the controller
-            IdeaController target = new IdeaController(mock.Object, null, null);
+            IdeaController target = new IdeaController(ideaMock.Object, sparkMock.Object, 
+                userMock.Object)
+            {
+                GetUserId = () => "UserId"
+            };
 
-            var vm = new CreateIdeaViewModel() {Title = idea.Title};
+            var vm = new CreateIdeaViewModel {Title = idea.Title};
 
             // Act
             target.Create(vm);
 
             // Assert - ensure that the repository create method was called with correct Idea
-            mock.Verify(m => m.SaveIdea(It.Is<Idea>(i => i.Title == idea.Title)));
+            ideaMock.Verify(m => m.SaveIdea(It.Is<Idea>(i => i.Title == idea.Title)));
         }
 
         [TestMethod]

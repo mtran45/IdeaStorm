@@ -7,6 +7,7 @@ namespace IdeaStorm.Domain.Abstract
     {
         IEnumerable<Spark> Sparks { get; }
 
+        Spark GetSparkByID(int? id);
         void SaveSpark(Spark spark);
     }
 }

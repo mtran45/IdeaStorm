@@ -37,5 +37,10 @@ namespace IdeaStorm.Domain.Concrete
             }
             context.SaveChanges();
         }
+
+        public Spark GetSparkByID(int? id)
+        {
+            return context.Sparks.Find(id);
+        }
     }
 }

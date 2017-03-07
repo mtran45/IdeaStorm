@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using IdeaStorm.Domain.Abstract;
@@ -16,29 +17,20 @@ namespace IdeaStorm.WebUI.Controllers
         private ISparkRepository sparkRepo;
         private IUserRepository userRepo;
 
+        public Func<string> GetUserId; // For testing
+
         public IdeaController(IIdeaRepository ideaRepo, ISparkRepository sparkRepo, IUserRepository userRepo)
         {
             this.ideaRepo = ideaRepo;
             this.sparkRepo = sparkRepo;
             this.userRepo = userRepo;
+
+            GetUserId = () => User.Identity.GetUserId();
         }
 
         public Idea FindIdea(int id)
         {
             return ideaRepo.Ideas.FirstOrDefault(i => i.IdeaID == id);
-        }
-
-        private AppUserManager _userManager;
-        public AppUserManager UserManager
-        {
-            get
-            {
-                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<AppUserManager>();
-            }
-            private set
-            {
-                _userManager = value;
-            }
         }
 
         // GET: /
@@ -84,7 +76,7 @@ namespace IdeaStorm.WebUI.Controllers
 
         public ActionResult PromoteSpark(int id)
         {
-            Spark spark = sparkRepo.Sparks.FirstOrDefault(s => s.SparkID == id);
+            Spark spark = sparkRepo.GetSparkByID(id);
             if (spark == null)
             {
                 return HttpNotFound();
@@ -103,16 +95,14 @@ namespace IdeaStorm.WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                var currUser = UserManager.FindById(User.Identity.GetUserId());
                 var idea = new Idea
                 {
                     Title = model.Title,
                     Description = model.Description,
                     Category = model.Category,
-                    User = userRepo.GetUserByID(currUser.Id),
-                    Spark = sparkRepo.Sparks.FirstOrDefault(s => s.SparkID == model.SparkID)
+                    User = userRepo.GetUserByID(GetUserId()),
+                    Spark = sparkRepo.GetSparkByID(model.SparkID)
             };
-                //Spark spark = ideaRepo.Sparks.FirstOrDefault(s => s.SparkID == SparkID);
                 ideaRepo.SaveIdea(idea);
                 TempData["message"] = string.Format($"\"{idea.Title}\" has been added");
                 return RedirectToAction("List");

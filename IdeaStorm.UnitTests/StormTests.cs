@@ -1,9 +1,11 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Security.Claims;
+using System.Web;
+using System.Web.Mvc;
 using IdeaStorm.Domain.Abstract;
 using IdeaStorm.Domain.Entities;
 using IdeaStorm.WebUI.Controllers;
+using Microsoft.AspNet.Identity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
@@ -20,11 +22,16 @@ namespace IdeaStorm.UnitTests
             List<string> ideaTitles = new List<string>(arr);
 
             // Arrange - create the mock repos
-            Mock<ISparkRepository> sparkMock = new Mock<ISparkRepository>();
             Mock<IStormRepository> stormMock = new Mock<IStormRepository>();
+            Mock<ISparkRepository> sparkMock = new Mock<ISparkRepository>();
+            Mock<IUserRepository> userMock = new Mock<IUserRepository>();
 
             // Arrange - create the controller
-            StormController target = new StormController(stormMock.Object, sparkMock.Object, null);
+            StormController target = new StormController(stormMock.Object, sparkMock.Object,
+                                                         userMock.Object)
+            {
+                GetUserId = () => "UserId"
+            };
 
             // Act
             target.Brainstorm("Storm Title", ideaTitles);
@@ -45,9 +52,7 @@ namespace IdeaStorm.UnitTests
             Storm storm = new Storm { StormID = 2, Title = "Test Storm" };
 
             // Arrange - create the mock repos
-            Mock<ISparkRepository> sparkMock = new Mock<ISparkRepository>();
             Mock<IStormRepository> stormMock = new Mock<IStormRepository>();
-            Mock<IIdeaRepository> ideaMock = new Mock<IIdeaRepository>();
             stormMock.Setup(m => m.Storms).Returns(new Storm[]
             {
                 new Storm { StormID = 1, Title = "S1" },
@@ -56,7 +61,7 @@ namespace IdeaStorm.UnitTests
             });
 
             // Arrange - create the controller
-            StormController stormTarget = new StormController(stormMock.Object, sparkMock.Object, ideaMock.Object);
+            StormController stormTarget = new StormController(stormMock.Object, null, null);
 
             // Act
             stormTarget.DeleteStorm(storm.StormID);
