@@ -14,31 +14,27 @@ namespace IdeaStorm.WebUI.Controllers
 {
     public class StormController : Controller
     {
-        private IStormRepository stormRepo;
-        private ISparkRepository sparkRepo;
-        private IUserRepository userRepo;
+        private IDbContext db;
 
         public Func<string> GetUserId; // For testing
 
-        public StormController(IStormRepository stormRepo, ISparkRepository sparkRepo, IUserRepository userRepo)
+        public StormController(IDbContext context)
         {
-            this.stormRepo = stormRepo;
-            this.sparkRepo = sparkRepo;
-            this.userRepo = userRepo;
+            db = context;
 
             GetUserId = () => User.Identity.GetUserId();
         }
 
         public Storm FindStorm(int id)
         {
-            return stormRepo.Storms.FirstOrDefault(s => s.StormID == id);
+            return db.Storms.FirstOrDefault(s => s.StormID == id);
         }
 
         // GET: Storm
         public ActionResult Index()
         {
             // var storms = db.Storms.Include(s => s.User);
-            return View(stormRepo.Storms);
+            return View(db.Storms);
         }
 
         // GET: Storm/Details/5
@@ -77,7 +73,7 @@ namespace IdeaStorm.WebUI.Controllers
         public ActionResult DeleteStorm(int id)
         {
             Storm storm = FindStorm(id);
-            stormRepo.DeleteStorm(storm);
+            db.DeleteStorm(storm);
             TempData["message"] = string.Format($"\"{storm.Title}\" has been deleted");
             return RedirectToAction("Index");
         }
@@ -95,7 +91,7 @@ namespace IdeaStorm.WebUI.Controllers
             var filteredTitles = sparks.Where(it => !string.IsNullOrWhiteSpace(it)).ToList();
             Storm storm = new Storm
             {
-                User = userRepo.GetUserByID(GetUserId()),
+                User = db.GetUserByID(GetUserId()),
                 Title = stormTitle
 
             };
@@ -103,9 +99,9 @@ namespace IdeaStorm.WebUI.Controllers
             {
                 Spark spark = new Spark(title);
                 spark.Storm = storm;
-                sparkRepo.SaveSpark(spark);
+                db.SaveSpark(spark);
             }
-            if (filteredTitles.Any()) stormRepo.SaveStorm(storm);
+            if (filteredTitles.Any()) db.SaveStorm(storm);
             TempData["message"] = string.Format($"{filteredTitles.Count} sparks added");
             return RedirectToAction("Index");
         }

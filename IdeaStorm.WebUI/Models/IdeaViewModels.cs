@@ -9,10 +9,10 @@ namespace IdeaStorm.WebUI.Models
         [Required]
         public string Title { get; set; }
 
+        [DataType(DataType.MultilineText)]
         public string Description { get; set; }
         public string Category { get; set; }
 
         public int? SparkID { get; set; }
     }
-
 }

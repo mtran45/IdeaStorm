@@ -11,12 +11,7 @@ namespace IdeaStorm.Domain.Entities
         [HiddenInput(DisplayValue = false)]
         public int IdeaID { get; set; }
 
-        [HiddenInput(DisplayValue = false)]
-        [DisplayName("Created Time")]
         public DateTime CreatedTime { get; set; }
-
-        [HiddenInput(DisplayValue = false)]
-        [DisplayName("Updated Time")]
         public DateTime UpdatedTime { get; set; }
 
         [Required(ErrorMessage = "Please enter an idea title")]
@@ -28,7 +23,6 @@ namespace IdeaStorm.Domain.Entities
         public string Category { get; set; }
 
         // Navigation Properties
-        [Required]
         public virtual User User { get; set; }
         public virtual Spark Spark { get; set; }
 

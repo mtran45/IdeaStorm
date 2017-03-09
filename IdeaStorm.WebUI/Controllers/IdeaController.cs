@@ -13,30 +13,25 @@ namespace IdeaStorm.WebUI.Controllers
 {
     public class IdeaController : Controller
     {
-        private IIdeaRepository ideaRepo;
-        private ISparkRepository sparkRepo;
-        private IUserRepository userRepo;
+        private IDbContext db;
 
         public Func<string> GetUserId; // For testing
 
-        public IdeaController(IIdeaRepository ideaRepo, ISparkRepository sparkRepo, IUserRepository userRepo)
+        public IdeaController(IDbContext context)
         {
-            this.ideaRepo = ideaRepo;
-            this.sparkRepo = sparkRepo;
-            this.userRepo = userRepo;
-
+            db = context;
             GetUserId = () => User.Identity.GetUserId();
         }
 
         public Idea FindIdea(int id)
         {
-            return ideaRepo.Ideas.FirstOrDefault(i => i.IdeaID == id);
+            return db.Ideas.FirstOrDefault(i => i.IdeaID == id);
         }
 
         // GET: /
         public ViewResult List()
         {
-            return View(ideaRepo.Ideas.OrderByDescending(i => i.CreatedTime));
+            return View(db.Ideas.OrderByDescending(i => i.CreatedTime));
         }
 
         // GET: Idea/Edit/5
@@ -57,7 +52,7 @@ namespace IdeaStorm.WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                ideaRepo.SaveIdea(idea);
+                db.SaveIdea(idea);
                 TempData["message"] = string.Format($"\"{idea.Title}\" has been updated");
                 return RedirectToAction("List");
             }
@@ -76,7 +71,7 @@ namespace IdeaStorm.WebUI.Controllers
 
         public ActionResult PromoteSpark(int id)
         {
-            Spark spark = sparkRepo.GetSparkByID(id);
+            Spark spark = db.GetSparkByID(id);
             if (spark == null)
             {
                 return HttpNotFound();
@@ -100,10 +95,10 @@ namespace IdeaStorm.WebUI.Controllers
                     Title = model.Title,
                     Description = model.Description,
                     Category = model.Category,
-                    User = userRepo.GetUserByID(GetUserId()),
-                    Spark = sparkRepo.GetSparkByID(model.SparkID)
+                    User = db.GetUserByID(GetUserId()),
+                    Spark = db.GetSparkByID(model.SparkID)
             };
-                ideaRepo.SaveIdea(idea);
+                db.SaveIdea(idea);
                 TempData["message"] = string.Format($"\"{idea.Title}\" has been added");
                 return RedirectToAction("List");
             }
@@ -127,7 +122,7 @@ namespace IdeaStorm.WebUI.Controllers
         public ActionResult DeleteIdea(int id)
         {
             Idea idea = FindIdea(id);
-            ideaRepo.DeleteIdea(idea);
+            db.DeleteIdea(idea);
             TempData["message"] = string.Format($"\"{idea.Title}\" has been deleted");
             return RedirectToAction("List");
         }

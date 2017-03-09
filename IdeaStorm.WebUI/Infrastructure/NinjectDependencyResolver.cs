@@ -34,11 +34,7 @@ namespace IdeaStorm.WebUI.Infrastructure
 
         private void AddBindings()
         {
-            kernel.Bind<EFDbContext>().ToSelf().InRequestScope();
-            kernel.Bind<IIdeaRepository>().To<EFIdeaRepository>().InRequestScope();
-            kernel.Bind<IStormRepository>().To<EFStormRepository>().InRequestScope();
-            kernel.Bind<ISparkRepository>().To<EFSparkRepository>().InRequestScope();
-            kernel.Bind<IUserRepository>().To<EFUserRepository>().InRequestScope();
+            kernel.Bind<IDbContext>().To<EFDbContext>();
         }
     }
 }
