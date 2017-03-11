@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
 using System.Web.Mvc;
-using IdeaStorm.Domain.Abstract;
+using IdeaStorm.Domain.Concrete;
 using IdeaStorm.Domain.Entities;
 using IdeaStorm.WebUI.Controllers;
 using IdeaStorm.WebUI.Models;
@@ -17,23 +19,25 @@ namespace IdeaStorm.UnitTests
         [TestInitialize()]
         public void Initialize()
         {
-            user = new User();
+            user = new User()
+            {
+                Id = "1",
+                UserName = "user"
+            };
         }
 
         [TestMethod]
         public void Can_Edit_Idea()
         {
-            // Arrange - create the mock repo
-            Mock<IIdeaRepository> mock = new Mock<IIdeaRepository>();
-            mock.Setup(m => m.Ideas).Returns(new Idea[]
-            {
-                new Idea(user) {IdeaID = 1, Title = "I1" },
-                new Idea(user) {IdeaID = 2, Title = "I2" },
-                new Idea(user) {IdeaID = 3, Title = "I3" },
-            });
+            // Arrange - create the mock repo and its data
+            var context = new TestContext();
+
+            context.Ideas.Add(new Idea(user) {IdeaID = 1, Title = "I1"});
+            context.Ideas.Add(new Idea(user) {IdeaID = 2, Title = "I2"});
+            context.Ideas.Add(new Idea(user) {IdeaID = 3, Title = "I3"});
 
             // Arrange - create the controller
-            IdeaController target = new IdeaController(mock.Object, null, null);
+            IdeaController target = new IdeaController(context);
 
             // Act
             Idea i1 = ((ViewResult)target.Edit(1)).ViewData.Model as Idea;
@@ -49,16 +53,15 @@ namespace IdeaStorm.UnitTests
         [TestMethod]
         public void Cannot_Edit_Nonexistent_Idea()
         {
-            Mock<IIdeaRepository> mock = new Mock<IIdeaRepository>();
-            mock.Setup(m => m.Ideas).Returns(new Idea[]
-            {
-                new Idea(user) {IdeaID = 1, Title = "I1" },
-                new Idea(user) {IdeaID = 2, Title = "I2" },
-                new Idea(user) {IdeaID = 3, Title = "I3" },
-            });
+            // Arrange - create the mock repo and its data
+            var context = new TestContext();
+
+            context.Ideas.Add(new Idea(user) { IdeaID = 1, Title = "I1" });
+            context.Ideas.Add(new Idea(user) { IdeaID = 2, Title = "I2" });
+            context.Ideas.Add(new Idea(user) { IdeaID = 3, Title = "I3" });
 
             // Arrange - create the controller
-            IdeaController target = new IdeaController(mock.Object, null, null);
+            IdeaController target = new IdeaController(context);
 
             // Act
             ActionResult result = target.Edit(4);
@@ -71,17 +74,19 @@ namespace IdeaStorm.UnitTests
         public void Can_Save_Valid_Changes()
         {
             // Arrange - create mock repo
-            Mock<IIdeaRepository> mock = new Mock<IIdeaRepository>();
+            var context = new TestContext();
             // Arrange - create the controller
-            IdeaController target = new IdeaController(mock.Object, null, null);
+            IdeaController target = new IdeaController(context);
             // Arrange - create an idea
             Idea idea = new Idea(user) {Title = "Test"};
 
             // Act - try to save the idea
             ActionResult result = target.Edit(idea);
 
-            // Assert - check that the repo was called
-            mock.Verify(m => m.SaveIdea(idea));
+            // Assert - check that the idea was saved
+            Assert.AreEqual(1, context.Ideas.Count());
+            Assert.AreEqual(idea.Title, context.Ideas.Single().Title);
+            Assert.AreEqual(user, context.Ideas.Single().User);
             // Assert - check the method result type
             Assert.IsNotInstanceOfType(result, typeof(ViewResult));
         }
@@ -90,9 +95,9 @@ namespace IdeaStorm.UnitTests
         public void Cannot_Save_Invalid_Changes()
         {
             // Arrange - create mock repo
-            Mock<IIdeaRepository> mock = new Mock<IIdeaRepository>();
+            var context = new TestContext();
             // Arrange - create the controller
-            IdeaController target = new IdeaController(mock.Object, null, null);
+            IdeaController target = new IdeaController(context);
             // Arrange - create an idea
             Idea idea = new Idea(user) { Title = "Test" };
             // Arrange - add an error to the model state
@@ -102,7 +107,7 @@ namespace IdeaStorm.UnitTests
             ActionResult result = target.Edit(idea);
 
             // Assert - check that the repo was not called
-            mock.Verify(m => m.SaveIdea(It.IsAny<Idea>()), Times.Never);
+            Assert.AreEqual(0, context.Ideas.Count());
             // Assert - check the method result type
             Assert.IsInstanceOfType(result, typeof(ViewResult));
         }
@@ -114,25 +119,24 @@ namespace IdeaStorm.UnitTests
             Idea idea = new Idea(user) { IdeaID = 2, Title = "Test" };
 
             // Arrange - create the mock repo
-            Mock<IIdeaRepository> ideaMock = new Mock<IIdeaRepository>();
-            Mock<ISparkRepository> sparkMock = new Mock<ISparkRepository>();
-            Mock<IUserRepository> userMock = new Mock<IUserRepository>();
-
+            var context = new TestContext();
+            context.Users.Add(user);
 
             // Arrange - create the controller
-            IdeaController target = new IdeaController(ideaMock.Object, sparkMock.Object, 
-                userMock.Object)
+            IdeaController target = new IdeaController(context)
             {
-                GetUserId = () => "UserId"
+                GetUserId = () => user.Id
             };
 
-            var vm = new CreateIdeaViewModel {Title = idea.Title};
+            var model = new CreateIdeaViewModel {Title = idea.Title};
 
             // Act
-            target.Create(vm);
+            target.Create(model);
 
             // Assert - ensure that the repository create method was called with correct Idea
-            ideaMock.Verify(m => m.SaveIdea(It.Is<Idea>(i => i.Title == idea.Title)));
+            Assert.AreEqual(1, context.Ideas.Count());
+            Assert.AreEqual(idea.Title, context.Ideas.Single().Title);
+            Assert.AreEqual(user, context.Ideas.Single().User);
         }
 
         [TestMethod]
@@ -142,22 +146,50 @@ namespace IdeaStorm.UnitTests
             Idea idea = new Idea(user) {IdeaID = 2, Title = "Test"};
 
             // Arrange - create the mock repo
-            Mock<IIdeaRepository> mock = new Mock<IIdeaRepository>();
-            mock.Setup(m => m.Ideas).Returns(new Idea[]
-            {
-                new Idea(user) {IdeaID = 1, Title = "I1" },
-                idea,
-                new Idea(user) {IdeaID = 3, Title = "I3" },
-            });
+            var context = new TestContext();
+
+            context.Ideas.Add(new Idea(user) { IdeaID = 1, Title = "I1" });
+            context.Ideas.Add(idea);
+            context.Ideas.Add(new Idea(user) { IdeaID = 3, Title = "I3" });
 
             // Arrange - create the controller
-            IdeaController target = new IdeaController(mock.Object, null, null);
+            IdeaController target = new IdeaController(context);
 
             // Act
             target.DeleteIdea(idea.IdeaID);
 
-            // Assert - ensure that the repository delete method was called with correct Idea
-            mock.Verify(m => m.DeleteIdea(idea));
+            // Assert - ensure that an idea was deleted and it was the correct one
+            Assert.AreEqual(2, context.Ideas.Count());
+            Assert.IsFalse(context.Ideas.Any(i => i.IdeaID == 2));
+        }
+
+        [TestMethod]
+        public void Can_Promote_Spark_To_Idea()
+        {
+            // Arrange - create a Spark
+            Spark spark = new Spark(user) {SparkID = 1, Title = "Test Spark"};
+
+            // Arrange - create the mock repo
+            var context = new TestContext();
+            context.Sparks.Add(spark);
+            context.Users.Add(user);
+
+            // Arrange - create the controller
+            IdeaController target = new IdeaController(context)
+            {
+                GetUserId = () => user.Id
+            };
+
+            var model = new CreateIdeaViewModel { Title = spark.Title, SparkID = spark.SparkID };
+
+            // Act
+            target.Create(model);
+
+            // Assert - ensure idea was created with the same title and associated spark
+            Assert.AreEqual(1, context.Ideas.Count());
+            Assert.AreEqual(spark.Title, context.Ideas.Single().Title);
+            Assert.AreEqual(spark, context.Ideas.Single().Spark);
+            Assert.AreEqual(user, context.Ideas.Single().User);
         }
     }
 }
