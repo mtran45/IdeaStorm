@@ -12,6 +12,7 @@ using Microsoft.AspNet.Identity.Owin;
 
 namespace IdeaStorm.WebUI.Controllers
 {
+    [Authorize]
     public class StormController : Controller
     {
         private IDbContext db;
@@ -31,6 +32,7 @@ namespace IdeaStorm.WebUI.Controllers
         }
 
         // GET: Storm
+        [AllowAnonymous]
         public ActionResult Index()
         {
             // var storms = db.Storms.Include(s => s.User);

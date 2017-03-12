@@ -11,6 +11,7 @@ using Microsoft.AspNet.Identity.Owin;
 
 namespace IdeaStorm.WebUI.Controllers
 {
+    [Authorize]
     public class IdeaController : Controller
     {
         private IDbContext db;
@@ -29,6 +30,7 @@ namespace IdeaStorm.WebUI.Controllers
         }
 
         // GET: /
+        [AllowAnonymous]
         public ViewResult List()
         {
             return View(db.Ideas.OrderByDescending(i => i.CreatedTime));
