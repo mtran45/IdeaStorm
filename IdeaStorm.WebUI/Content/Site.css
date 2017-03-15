@@ -70,12 +70,17 @@ textarea {
 /* Brainstorm */
 
 .panel.brainstorm {
+    margin: 0 auto;
     width: 30rem;
 }
 
 .brainstorm .panel-heading {
     background-color: #f5f5f5;
     border-bottom: 1px solid #ddd;
+}
+
+.brainstorm .panel-heading input {
+    text-align: center;
 }
 
 .brainstorm h4 {

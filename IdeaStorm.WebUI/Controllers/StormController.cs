@@ -32,11 +32,11 @@ namespace IdeaStorm.WebUI.Controllers
         }
 
         // GET: Storm
-        [AllowAnonymous]
         public ActionResult Index()
         {
-            // var storms = db.Storms.Include(s => s.User);
-            return View(db.Storms);
+            string userId = GetUserId();
+            List<Storm> storms = db.Storms.Where(s => s.User.Id == userId).ToList();
+            return View(storms);
         }
 
         // GET: Storm/Details/5
