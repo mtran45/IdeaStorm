@@ -28,8 +28,8 @@ namespace IdeaStorm.Domain.Entities
 
         public Idea()
         {
-            CreatedTime = DateTime.Now;
-            UpdatedTime = DateTime.Now;
+            CreatedTime = DateTime.UtcNow;
+            UpdatedTime = DateTime.UtcNow;
         }
 
         public Idea(User user) : this()

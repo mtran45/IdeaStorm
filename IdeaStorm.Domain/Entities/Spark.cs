@@ -22,8 +22,8 @@ namespace IdeaStorm.Domain.Entities
 
         public Spark()
         {
-            CreatedTime = DateTime.Now;
-            UpdatedTime = DateTime.Now;
+            CreatedTime = DateTime.UtcNow;
+            UpdatedTime = DateTime.UtcNow;
         }
 
         public Spark(User user) : this()

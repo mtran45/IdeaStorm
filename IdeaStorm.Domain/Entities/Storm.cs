@@ -19,8 +19,8 @@ namespace IdeaStorm.Domain.Entities
 
         public Storm()
         {
-            CreatedTime = DateTime.Now;
-            UpdatedTime = DateTime.Now;
+            CreatedTime = DateTime.UtcNow;
+            UpdatedTime = DateTime.UtcNow;
         }
     }
 }

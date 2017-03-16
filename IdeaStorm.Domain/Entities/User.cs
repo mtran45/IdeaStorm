@@ -18,7 +18,7 @@ namespace IdeaStorm.Domain.Entities
 
         public User()
         {
-            CreatedTime = DateTime.Now;
+            CreatedTime = DateTime.UtcNow;
         }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<User> manager)

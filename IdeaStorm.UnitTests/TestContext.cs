@@ -31,7 +31,7 @@ namespace IdeaStorm.UnitTests
 
         public void SaveIdea(Idea idea)
         {
-            idea.UpdatedTime = DateTime.Now;
+            idea.UpdatedTime = DateTime.UtcNow;
             if (idea.IdeaID == 0)
             {
                 Ideas.Add(idea);
@@ -63,7 +63,7 @@ namespace IdeaStorm.UnitTests
 
         public void SaveSpark(Spark spark)
         {
-            spark.UpdatedTime = DateTime.Now;
+            spark.UpdatedTime = DateTime.UtcNow;
             if (spark.SparkID == 0)
             {
                 Sparks.Add(spark);
@@ -82,7 +82,7 @@ namespace IdeaStorm.UnitTests
 
         public void SaveStorm(Storm storm)
         {
-            storm.UpdatedTime = DateTime.Now;
+            storm.UpdatedTime = DateTime.UtcNow;
             if (storm.StormID == 0)
             {
                 Storms.Add(storm);
