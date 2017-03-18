@@ -14,12 +14,14 @@ namespace IdeaStorm.Domain.Abstract
 
         void SaveIdea(Idea idea);
         void DeleteIdea(Idea idea);
+        Idea GetIdeaByID(int? id);
 
         Spark GetSparkByID(int? id);
         void SaveSpark(Spark spark);
 
         void SaveStorm(Storm storm);
         void DeleteStorm(Storm storm);
+        Storm GetStormByID(int? id);
 
         User GetUserByID(string userID);
     }

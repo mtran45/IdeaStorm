@@ -2,6 +2,7 @@
 using System.Linq;
 using IdeaStorm.Domain.Entities;
 using IdeaStorm.WebUI.Controllers;
+using IdeaStorm.WebUI.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace IdeaStorm.UnitTests
@@ -12,8 +13,13 @@ namespace IdeaStorm.UnitTests
         [TestMethod]
         public void Can_Bulk_Create_Sparks_With_Brainstorm()
         {
-            // Arrange - create a list of spark names
-            List<string> ideaTitles = new List<string>(new[] { "I1", "I2", "I3" });
+            // Arrange - create a list of sparks
+            List<Spark> sparks = new List<Spark>
+            {
+                new Spark("Spark 1"),
+                new Spark("Spark 2"),
+                new Spark("Spark 3")
+            };
 
             // Arrange - create the mock repos
             var context = new TestContext();
@@ -24,8 +30,15 @@ namespace IdeaStorm.UnitTests
                 GetUserId = () => "UserId"
             };
 
+            // Arrange - create view model
+            var model = new BrainstormViewModel()
+            {
+                Title = "Storm Title",
+                Sparks = sparks
+            };
+
             // Act
-            target.Brainstorm("Storm Title", ideaTitles);
+            target.Brainstorm(model);
 
             // Assert - ensure that storm is created with correct title
             Assert.AreEqual(1, context.Storms.Count());
@@ -33,9 +46,9 @@ namespace IdeaStorm.UnitTests
 
             // Assert - ensure that sparks are created
             Assert.AreEqual(3, context.Sparks.Count());
-            Assert.IsTrue(context.Sparks.Any(i => i.Title == "I1"));
-            Assert.IsTrue(context.Sparks.Any(i => i.Title == "I2"));
-            Assert.IsTrue(context.Sparks.Any(i => i.Title == "I3"));
+            Assert.IsTrue(context.Sparks.Any(i => i.Title == "Spark 1"));
+            Assert.IsTrue(context.Sparks.Any(i => i.Title == "Spark 2"));
+            Assert.IsTrue(context.Sparks.Any(i => i.Title == "Spark 3"));
         }
 
         [TestMethod]

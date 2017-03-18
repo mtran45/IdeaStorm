@@ -14,7 +14,6 @@ namespace IdeaStorm.Domain.Entities
 
         // Navigation properties
         public virtual ICollection<Spark> Sparks { get; set; }
-        [Required]
         public virtual User User { get; set; }
 
         public Storm()

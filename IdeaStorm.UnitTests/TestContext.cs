@@ -56,6 +56,11 @@ namespace IdeaStorm.UnitTests
             SaveChanges();
         }
 
+        public Idea GetIdeaByID(int? id)
+        {
+            return Ideas.FirstOrDefault(i => i.IdeaID == id);
+        }
+
         public Spark GetSparkByID(int? id)
         {
             return Sparks.FirstOrDefault(s => s.SparkID == id);
@@ -105,6 +110,11 @@ namespace IdeaStorm.UnitTests
             Sparks.RemoveRange(storm.Sparks);
             Storms.Remove(storm);
             SaveChanges();
+        }
+
+        public Storm GetStormByID(int? id)
+        {
+            return Storms.FirstOrDefault(s => s.StormID == id);
         }
 
         public User GetUserByID(string userID)

@@ -17,7 +17,7 @@
             </div>
         </div>
         <table class="table">
-            @foreach (var spark in storm.Sparks)
+            @foreach (var spark in storm.Sparks.Where(spark => string.IsNullOrWhiteSpace(spark.Title) == false))
                 {
                 <tr>
                     <td>

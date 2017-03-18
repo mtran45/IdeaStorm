@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IdeaStorm.WebUI.Models.BrainstormViewModel
+
+@{
     ViewBag.Title = "Brainstorm";
 }
 
@@ -7,28 +9,29 @@
 <div class="panel panel-default brainstorm">
     @using (Html.BeginForm())
     {
-    <div class="panel-heading">
-        @Html.TextBox("stormTitle", "Brainstorm " + DateTime.Today.ToShortDateString(),
-                      new {@class = "form-control", placeholder = "Storm Title"})
-    </div>
+        <div class="panel-heading">
+            @Html.HiddenFor(m => m.Id)
+            @Html.TextBoxFor(m => m.Title,
+                new {@class = "form-control storm-title", placeholder = "Storm Title"})
+        </div>
 
-    <h4>
-        Enter <span id="brainstorm-remaining">10</span> more spark(s)
-    </h4>
+        <h4>
+            Enter <span id="brainstorm-remaining">10</span> more spark(s)
+        </h4>
 
-    <div class="panel-body">
-        @for (var i = 0; i < 10; i++)
-        {
-            @Html.TextBox("sparks", null,
-                          new {@class = "form-control", placeholder = "Spark " + (i + 1)})
-        }
-    </div>
+        <div class="panel-body">
+            @for (var i = 0; i < 10; i++)
+            {
+                @Html.TextBoxFor(m => m.Sparks[i].Title,
+                              new {@class = "form-control", placeholder = "Spark " + (i + 1)})
+            }
+        </div>
 
-    <div class="panel-footer">
-        <input type="submit" value="Save" class="btn btn-primary"/>
-        @Html.ActionLink("Cancel and return to List", "Index", null,
-                         new {@class = "btn btn-default"})
-    </div>
+        <div class="panel-footer">
+            <input type="submit" value="Save" class="btn btn-primary"/>
+            @Html.ActionLink("Cancel and return to List", "Index", null,
+                             new {@class = "btn btn-default"})
+        </div>
     }
 </div>
 
@@ -50,7 +53,7 @@
                 update_remaining();
             });
             update_remaining();
-            $("#stormTitle").select();
+            $(".storm-title").select();
         });
     </script>
 }

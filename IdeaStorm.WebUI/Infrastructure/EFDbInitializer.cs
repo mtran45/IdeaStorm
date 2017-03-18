@@ -71,6 +71,13 @@ namespace IdeaStorm.WebUI.Infrastructure
                 new Spark(user) {Title = "Brainstorm 1", Storm = storm2},
                 new Spark(user) {Title = "Brainstorm 2", Storm = storm2},
                 new Spark(user) {Title = "Brainstorm 3", Storm = storm2},
+                new Spark(user) {Title = "Brainstorm 4", Storm = storm2},
+                new Spark(user) {Title = "Brainstorm 5", Storm = storm2},
+                new Spark(user) {Title = "Brainstorm 6", Storm = storm2},
+                new Spark(user) {Title = "Brainstorm 7", Storm = storm2},
+                new Spark(user) {Title = "Brainstorm 8", Storm = storm2},
+                new Spark(user) {Title = "Brainstorm 9", Storm = storm2},
+                new Spark(user) {Title = "Brainstorm 10", Storm = storm2},
             };
             sparks.ForEach(s => context.Sparks.Add(s));
             context.SaveChanges();

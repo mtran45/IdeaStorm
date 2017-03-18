@@ -244,6 +244,7 @@
     <Compile Include="Infrastructure\EFDbInitializer.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\BrainstormViewModel.cs" />
     <Compile Include="Models\IdeaViewModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

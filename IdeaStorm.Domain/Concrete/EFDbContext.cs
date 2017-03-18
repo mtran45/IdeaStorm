@@ -60,6 +60,11 @@ namespace IdeaStorm.Domain.Concrete
             SaveChanges();
         }
 
+        public Idea GetIdeaByID(int? id)
+        {
+            return Ideas.Find(id);
+        }
+
         // Sparks
 
         public void SaveSpark(Spark spark)
@@ -113,6 +118,11 @@ namespace IdeaStorm.Domain.Concrete
             Sparks.RemoveRange(storm.Sparks);
             Storms.Remove(storm);
             SaveChanges();
+        }
+
+        public Storm GetStormByID(int? id)
+        {
+            return Storms.Find(id);
         }
 
         // Users

@@ -24,11 +24,6 @@ namespace IdeaStorm.WebUI.Controllers
             GetUserId = () => User.Identity.GetUserId();
         }
 
-        public Idea FindIdea(int id)
-        {
-            return db.Ideas.FirstOrDefault(i => i.IdeaID == id);
-        }
-
         // GET: /
         [AllowAnonymous]
         public ViewResult List()
@@ -39,8 +34,7 @@ namespace IdeaStorm.WebUI.Controllers
         // GET: Idea/Edit/5
         public ActionResult Edit(int id)
         {
-            //Idea idea = ideaRepo.FindIdea(id);
-            Idea idea = FindIdea(id);
+            Idea idea = db.GetIdeaByID(id);
             if (idea == null)
             {
                 return HttpNotFound();
@@ -111,7 +105,7 @@ namespace IdeaStorm.WebUI.Controllers
         // GET: Idea/Delete/5
         public ActionResult Delete(int id)
         {
-            Idea idea = FindIdea(id);
+            Idea idea = db.GetIdeaByID(id);
             if (idea == null)
             {
                 return HttpNotFound();
@@ -123,7 +117,7 @@ namespace IdeaStorm.WebUI.Controllers
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteIdea(int id)
         {
-            Idea idea = FindIdea(id);
+            Idea idea = db.GetIdeaByID(id);
             db.DeleteIdea(idea);
             TempData["message"] = string.Format($"\"{idea.Title}\" has been deleted");
             return RedirectToAction("List");
