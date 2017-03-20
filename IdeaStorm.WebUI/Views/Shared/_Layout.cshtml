@@ -37,6 +37,10 @@
     </div>
 
 <div class="container body-content">
+    @if (TempData["errorMsg"] != null)
+    {
+        <div class="alert alert-danger">@TempData["errorMsg"]</div>
+    }
     @if (TempData["message"] != null)
     {
         <div class="alert alert-success">@TempData["message"]</div>

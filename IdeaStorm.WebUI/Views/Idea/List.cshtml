@@ -1,4 +1,5 @@
 ﻿@using IdeaStorm.Domain.Entities
+@using Microsoft.AspNet.Identity
 @model IEnumerable<Idea>
 
 @{
@@ -8,21 +9,33 @@
 <h2>All Ideas</h2>
 
 <ul class="list-group">
-    @foreach (var i in Model)
+    @foreach (var idea in Model)
     {
         <ul class="list-group-item">
             <h4 class="list-group-item-heading">
-                <strong>@Html.ActionLink(i.Title, "Edit", new { id=i.IdeaID })</strong>
-                <span class="pull-right label label-success">@i.Category</span>
+                <strong>
+                    @if (idea.User.Id == User.Identity.GetUserId())
+                    {
+                        @Html.ActionLink(idea.Title, "Edit", new {id = idea.IdeaID})
+                    }
+                    else
+                    {
+                        @Html.ActionLink(idea.Title, "Details", new { id = idea.IdeaID })
+                    }
+                </strong>
+                <span class="pull-right label label-success">@idea.Category</span>
             </h4>
             
             <div class="tagline">
-                <strong>@(i.User.UserName)</strong> 
-                <time class="timeago" datetime="@i.CreatedTime.ToString("u")">@i.CreatedTime</time>
-                @Html.ActionLink("Delete", "Delete", new { id=i.IdeaID })
+                <strong>@(idea.User.UserName)</strong> 
+                <time class="timeago" datetime="@idea.CreatedTime.ToString("u")">@idea.CreatedTime</time>
+                @if (idea.User.Id == User.Identity.GetUserId())
+                {
+                    @Html.ActionLink("Delete", "Delete", new {id = idea.IdeaID})
+                }
             </div>
 
-            <p id="idea-desc" class="list-group-item-text">@i.Description</p>
+            <p id="idea-desc" class="list-group-item-text">@idea.Description</p>
         </ul>
     }
 </ul>

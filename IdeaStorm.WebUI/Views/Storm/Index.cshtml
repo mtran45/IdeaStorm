@@ -4,7 +4,7 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Storms</h2>
+<h2>@(User.Identity.Name)'s Storms</h2>
 
 @foreach (var storm in Model)
 {

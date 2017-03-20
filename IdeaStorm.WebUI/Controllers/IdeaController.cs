@@ -31,6 +31,16 @@ namespace IdeaStorm.WebUI.Controllers
             return View(db.Ideas.OrderByDescending(i => i.CreatedTime));
         }
 
+        public ActionResult Details(int? id)
+        {
+            Idea idea = db.GetIdeaByID(id);
+            if (idea == null)
+            {
+                return HttpNotFound();
+            }
+            return View(idea);
+        }
+
         // GET: Idea/Edit/5
         public ActionResult Edit(int id)
         {
@@ -39,6 +49,13 @@ namespace IdeaStorm.WebUI.Controllers
             {
                 return HttpNotFound();
             }
+
+            if (idea.User.Id != GetUserId())
+            {
+                TempData["errorMsg"] = $"You are not authorized to edit \"{idea.Title}\".";
+                return RedirectToAction("List");
+            }
+
             return View(idea);
         }
 
@@ -49,7 +66,7 @@ namespace IdeaStorm.WebUI.Controllers
             if (ModelState.IsValid)
             {
                 db.SaveIdea(idea);
-                TempData["message"] = string.Format($"\"{idea.Title}\" has been updated");
+                TempData["message"] = $"\"{idea.Title}\" has been updated";
                 return RedirectToAction("List");
             }
             else
@@ -110,6 +127,13 @@ namespace IdeaStorm.WebUI.Controllers
             {
                 return HttpNotFound();
             }
+
+            if (idea.User.Id != GetUserId())
+            {
+                TempData["errorMsg"] = $"You are not authorized to delete \"{idea.Title}\".";
+                return RedirectToAction("List");
+            }
+
             return View(idea);
         }
 

@@ -37,7 +37,10 @@ namespace IdeaStorm.UnitTests
             context.Ideas.Add(new Idea(user) {IdeaID = 3, Title = "I3"});
 
             // Arrange - create the controller
-            IdeaController target = new IdeaController(context);
+            IdeaController target = new IdeaController(context)
+            {
+                GetUserId = () => user.Id
+            };
 
             // Act
             Idea i1 = ((ViewResult)target.Edit(1)).ViewData.Model as Idea;
